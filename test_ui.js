@@ -81,6 +81,15 @@ const firstWin=winIdx[0], lastWin=winIdx[winIdx.length-1];
   crpick.value="-1";
 })();
 
+// ===== UI-8: malicious character name is HTML-escaped (no XSS) =====
+(function(){
+  const mal='<img src=x onerror=alert(1)>';
+  const w=[{type:"character",name:mal,rarity:5,item_id:99999999,timestamp:"2025-01-01T00:00:00Z"}];
+  seed.value="1"; crpick.value="-1"; render(w,"xss");
+  const html=tbody._html;
+  check("UI-8 malicious name escaped (no XSS)", html.includes("&lt;img")&&!/<img/i.test(html), "html="+html.slice(0,140));
+})();
+
 // ===== UI-7: multi-UID switch (export with 2 accounts) =====
 (function(){
   const uids=JSON.parse(fs.readFileSync("testdata/multi_uid.json","utf8")).user.gi.uids;

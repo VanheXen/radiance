@@ -44,6 +44,14 @@ counter starts at 1 at v5.0, floor 0; **only 50/50s move it** (lose +1, win −1
 at 2 the next 50/50 has a small (~54.5%) radiance chance, at 3 it's a guaranteed
 radiance win that resets the counter to 1; guaranteed pulls (after a lost 50/50) don't change it.
 
+### Credits & sources
+This tool stands on others' work:
+- **[genshin-db](https://github.com/theBowja/genshin-db)** by theBowja — character names, rarities, and IDs (the embedded/auto-updated charmap).
+- **[stardb.gg](https://stardb.gg)** — wish-history import and the public API the link/UID fetch uses.
+- **Capturing Radiance model** — the community analysis of ~4M post-v5.0 pulls by [u/OneBST](https://www.reddit.com/r/Genshin_Impact/comments/1hd1sqa/), refined by u/benjaminhsieh.
+- **Soft/hard pity & drop-rate model** — Cgg / [genshin-wishes.com](https://genshin-wishes.com), [HoYoLAB statistical analysis](https://www.hoyolab.com/article/497840).
+- **Genshin Impact** © HoYoverse. Game names and data belong to them; this is an unofficial fan tool, not affiliated with or endorsed by HoYoverse.
+
 ### Development
 ```
 python run_tests.py     # regenerate fixtures + run all tests
@@ -90,6 +98,14 @@ Basato sull'analisi della community di ~4M pull post-v5.0
 il contatore parte da 1 alla v5.0, minimo 0; **solo i 50/50 lo muovono** (perso +1, vinto −1);
 a 2 il prossimo 50/50 ha una piccola probabilità (~54.5%) di radiance, a 3 è una
 vincita radiance garantita che riporta il contatore a 1; i pull garantiti (dopo un 50/50 perso) non lo cambiano.
+
+### Crediti e fonti
+Questo strumento si basa sul lavoro di altri:
+- **[genshin-db](https://github.com/theBowja/genshin-db)** di theBowja — nomi, rarità e ID dei personaggi (la charmap integrata e auto-aggiornata).
+- **[stardb.gg](https://stardb.gg)** — import della cronologia wish e l'API pubblica usata dal fetch via link/UID.
+- **Modello Capturing Radiance** — l'analisi della community su ~4M pull post-v5.0 di [u/OneBST](https://www.reddit.com/r/Genshin_Impact/comments/1hd1sqa/), affinata da u/benjaminhsieh.
+- **Modello soft/hard pity e drop-rate** — Cgg / [genshin-wishes.com](https://genshin-wishes.com), [analisi statistica HoYoLAB](https://www.hoyolab.com/article/497840).
+- **Genshin Impact** © HoYoverse. Nomi e dati di gioco appartengono a loro; questo è uno strumento fan non ufficiale, non affiliato né approvato da HoYoverse.
 
 ### Sviluppo
 ```
