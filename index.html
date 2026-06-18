@@ -29,6 +29,14 @@
   a{color:var(--gold-dim)}
   a:hover{color:var(--gold)}
 
+  /* language toggle + per-language visibility */
+  .langtoggle{display:flex; justify-content:flex-end; gap:6px; margin-bottom:6px}
+  .langtoggle button{background:transparent; border:1px solid var(--line); color:var(--dim);
+    border-radius:8px; padding:4px 10px; font-size:11px; letter-spacing:.05em; cursor:pointer}
+  .langtoggle button.active{border-color:var(--gold-dim); color:var(--gold)}
+  body[data-lang="en"] .l-it{display:none}
+  body[data-lang="it"] .l-en{display:none}
+
   /* ---------- header ---------- */
   header{text-align:center; margin-bottom:26px}
   h1{font-family:var(--serif); font-weight:600; font-size:34px; margin:0; letter-spacing:.01em;
@@ -173,11 +181,15 @@
   [data-state="3"]{--accent:var(--gold)}
 </style>
 </head>
-<body data-state="1">
+<body data-state="1" data-lang="en">
 <main>
+  <div class="langtoggle">
+    <button type="button" data-setlang="en" aria-label="English">EN</button>
+    <button type="button" data-setlang="it" aria-label="Italiano">IT</button>
+  </div>
   <header>
     <h1>Capturing Radiance</h1>
-    <p class="tagline">Your Genshin 50/50 status, reconstructed from your wish history.</p>
+    <p class="tagline"><span class="l-en">Your Genshin 50/50 status, reconstructed from your wish history.</span><span class="l-it">Il tuo stato 50/50 di Genshin, ricostruito dalla cronologia dei wish.</span></p>
   </header>
 
   <!-- INPUT -->
@@ -186,19 +198,19 @@
       <input id="link" type="text" placeholder="Paste wish link or 9-digit UID" autocomplete="off" spellcheck="false" aria-label="Wish history link or 9-digit UID">
       <button id="fetch">Fetch</button>
     </div>
-    <p class="field-warn">Using a link or UID imports your wishes to stardb, making them <strong>public to anyone with your UID</strong>. To stay private, use Load&nbsp;JSON. <a href="#privacy">Details</a></p>
+    <p class="field-warn"><span class="l-en">Using a link or UID imports your wishes to stardb, making them <strong>public to anyone with your UID</strong>. To stay private, use Load&nbsp;JSON. <a href="#privacy">Details</a></span><span class="l-it">Usare un link o UID importa i tuoi wish su stardb, rendendoli <strong>pubblici per chiunque conosca il tuo UID</strong>. Per restare privato, usa Load&nbsp;JSON. <a href="#privacy">Dettagli</a></span></p>
 
     <div class="alt">
       <label class="file">Load JSON<input id="file" type="file" accept=".json" hidden></label>
-      <span class="alt-note">stays on your device</span>
-      <button id="demo" class="ghost" type="button">Try sample data</button>
-      <select id="uidpick" hidden aria-label="Choose account UID"></select>
+      <span class="alt-note"><span class="l-en">stays on your device</span><span class="l-it">resta sul tuo dispositivo</span></span>
+      <button id="demo" class="ghost" type="button"><span class="l-en">Try sample data</span><span class="l-it">Prova dati esempio</span></button>
+      <select id="uidpick" hidden aria-label="Account UID"></select>
       <span id="src"></span>
     </div>
 
     <details class="help">
-      <summary>How do I get my link or UID?</summary>
-      <div class="help-body">
+      <summary><span class="l-en">How do I get my link or UID?</span><span class="l-it">Come ottengo link o UID?</span></summary>
+      <div class="help-body l-en">
         <p><strong>Wish-history link</strong> (Windows) — fetches fresh data:</p>
         <ol>
           <li>Start Genshin on your PC and open <em>Wishes → History</em>.</li>
@@ -214,45 +226,71 @@
         </ol>
         <p class="tiny"><strong>On mobile or console?</strong> The link step needs a PC — import once on a PC, then use your <em>UID</em> here (or Load JSON). On PC but not Windows? Use the <a href="https://github.com/juliuskreutz/stardb-exporter" target="_blank" rel="noopener">stardb exporter</a> or <a href="https://stardb.gg/en/genshin/wish-import" target="_blank" rel="noopener">stardb.gg/wish</a>.</p>
       </div>
+      <div class="help-body l-it">
+        <p><strong>Link della cronologia wish</strong> (Windows) — scarica dati aggiornati:</p>
+        <ol>
+          <li>Avvia Genshin sul PC e apri <em>Wish → Cronologia</em>.</li>
+          <li>Apri <em>PowerShell</em> (cerca "PowerShell" nel menu Start).</li>
+          <li>Esegui questo, poi copia l'output (il tuo link wish):
+            <span class="cmd-row"><code class="cmd">iwr -useb stardb.gg/wish | iex</code></span></li>
+          <li>Incolla quel link sopra e premi <em>Fetch</em>.</li>
+        </ol>
+        <p><strong>UID</strong> — dopo aver importato una volta:</p>
+        <ol>
+          <li>Esegui l'import via link almeno una volta (qui o su stardb.gg/wish).</li>
+          <li>Poi scrivi il tuo <em>UID a 9 cifre</em> (in basso a destra nel gioco) e premi <em>Fetch</em>.</li>
+        </ol>
+        <p class="tiny"><strong>Su mobile o console?</strong> Lo step del link richiede un PC — importa una volta da PC, poi usa il tuo <em>UID</em> qui (o Load JSON). Su PC ma non Windows? Usa lo <a href="https://github.com/juliuskreutz/stardb-exporter" target="_blank" rel="noopener">stardb exporter</a> o <a href="https://stardb.gg/en/genshin/wish-import" target="_blank" rel="noopener">stardb.gg/wish</a>.</p>
+      </div>
     </details>
     <div id="upd"></div>
   </section>
 
   <!-- RESULT -->
   <section class="card hero">
-    <p class="eyebrow">Radiance Counter</p>
+    <p class="eyebrow"><span class="l-en">Radiance Counter</span><span class="l-it">Contatore Radiance</span></p>
     <div class="pips"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div>
     <div class="counter-line"><span id="counter">—</span><span class="of"> / 3</span></div>
-    <p class="sub">losses banked toward a guaranteed pull</p>
+    <p class="sub"><span class="l-en">losses banked toward a guaranteed pull</span><span class="l-it">perdite accumulate verso un pull garantito</span></p>
     <p id="status">Load your wish history to begin.</p>
     <div id="summary"></div>
     <p id="note"></p>
-    <p class="legend">0–1 · normal 50/50&nbsp;&nbsp;|&nbsp;&nbsp;2 · ~55% boosted&nbsp;&nbsp;|&nbsp;&nbsp;3 · next 50/50 guaranteed</p>
+    <p class="legend"><span class="l-en">0–1 · normal 50/50&nbsp;&nbsp;|&nbsp;&nbsp;2 · ~55% boosted&nbsp;&nbsp;|&nbsp;&nbsp;3 · next 50/50 guaranteed</span><span class="l-it">0–1 · 50/50 normale&nbsp;&nbsp;|&nbsp;&nbsp;2 · ~55% potenziato&nbsp;&nbsp;|&nbsp;&nbsp;3 · prossimo 50/50 garantito</span></p>
 
     <div id="seedbox" hidden>
-      <div class="warn">History starts <b id="seeddate"></b> — after v5.0 (2024-08-28). Anchor it below, strongest first:</div>
-      <label class="seed"><span class="rank">1 · most reliable</span> A 5★ you got <i>from Capturing Radiance</i>:
-        <select id="crpick" aria-label="5-star obtained from Capturing Radiance"><option value="-1">— don't remember —</option></select>
+      <div class="warn"><span class="l-en">History starts </span><span class="l-it">La cronologia inizia il </span><b id="seeddate"></b><span class="l-en"> — after v5.0 (2024-08-28). Anchor it below, strongest first:</span><span class="l-it"> — dopo la v5.0 (28-08-2024). Fissalo sotto, dal più affidabile:</span></div>
+      <label class="seed">
+        <span class="rank"><span class="l-en">1 · most reliable</span><span class="l-it">1 · più affidabile</span></span>
+        <span class="l-en">A 5★ you got <i>from Capturing Radiance</i>:</span><span class="l-it">Un 5★ ottenuto <i>da Capturing Radiance</i>:</span>
+        <select id="crpick" aria-label="5-star from Capturing Radiance"><option value="-1">— —</option></select>
       </label>
-      <label class="seed"><span class="rank">2 · fallback</span> Or your radiance counter at that date:
+      <label class="seed">
+        <span class="rank"><span class="l-en">2 · fallback</span><span class="l-it">2 · ripiego</span></span>
+        <span class="l-en">Or your radiance counter at that date:</span><span class="l-it">Oppure il contatore radiance a quella data:</span>
         <select id="seed" aria-label="Radiance counter at start date"><option>0</option><option selected>1</option><option>2</option><option>3</option></select>
       </label>
-      <div class="hint">Picking the radiance pull self-checks (the game shows a golden animation for it) and pins everything after it. The counter value only relies on memory.</div>
+      <div class="hint"><span class="l-en">Picking the radiance pull self-checks (the game shows a golden animation for it) and pins everything after it. The counter value only relies on memory.</span><span class="l-it">Scegliere il pull radiance si auto-verifica (il gioco mostra un'animazione dorata) e fissa tutto ciò che viene dopo. Il valore del contatore dipende solo dalla memoria.</span></div>
     </div>
   </section>
 
   <!-- HISTORY -->
   <table id="tbl" hidden>
-    <caption>50/50 history since v5.0</caption>
-    <thead><tr><th>date</th><th>character</th><th>pity</th><th>result</th><th>note</th></tr></thead>
+    <caption><span class="l-en">50/50 history since v5.0</span><span class="l-it">cronologia 50/50 dalla v5.0</span></caption>
+    <thead><tr>
+      <th><span class="l-en">date</span><span class="l-it">data</span></th>
+      <th><span class="l-en">character</span><span class="l-it">personaggio</span></th>
+      <th>pity</th>
+      <th><span class="l-en">result</span><span class="l-it">esito</span></th>
+      <th><span class="l-en">note</span><span class="l-it">nota</span></th>
+    </tr></thead>
     <tbody></tbody>
   </table>
 
   <!-- LEGAL -->
   <footer>
     <details class="legal" id="privacy">
-      <summary>Disclaimer &amp; privacy — how your data is handled</summary>
-      <div class="legal-body">
+      <summary><span class="l-en">Disclaimer &amp; privacy — how your data is handled</span><span class="l-it">Avvertenze e privacy — come vengono trattati i tuoi dati</span></summary>
+      <div class="legal-body l-en">
         <h4>Estimate, not truth</h4>
         The Capturing Radiance counter uses an <em>unofficial community model</em> — HoYoverse has never
         published the real mechanic. Results are estimates and can be wrong, especially on partial histories.
@@ -281,10 +319,39 @@
         <h4>Authkey</h4>
         A wish link holds a read-only key that expires in ~24h and is sent only to stardb.
       </div>
+      <div class="legal-body l-it">
+        <h4>Stime, non verità</h4>
+        Il contatore Capturing Radiance usa un <em>modello non ufficiale della community</em> — HoYoverse non
+        ha mai pubblicato il meccanismo reale. I risultati sono stime e possono sbagliare, soprattutto con cronologie parziali.
+
+        <h4>I tuoi dati — come carichi decide cosa viene esposto</h4>
+        Quest'app contatta solo <strong>stardb.gg</strong> (per i wish) e <strong>genshin-db</strong>
+        (nomi dei personaggi — nessun dato personale).
+        <ul>
+          <li><strong>Load JSON</strong> — non invia nulla; i dati restano sul tuo dispositivo.</li>
+          <li><strong>Link / UID (Fetch)</strong> — richiedono internet e passano da stardb. Inviare un link
+            importa la cronologia su stardb, che la rende <strong>leggibile pubblicamente da chiunque conosca
+            il tuo UID</strong> (policy di stardb). L'UID legge solo quei dati pubblici. Il toggle <em>private</em>
+            di stardb non lo nasconde — solo cancellare i wish su stardb lo fa.</li>
+        </ul>
+
+        <h4>Lo script di estrazione è sicuro di per sé</h4>
+        Ottenere il link (<code>stardb.gg/wish</code> o stardb-exporter) legge solo la cache locale del gioco e
+        valida il link contro i server di Hoyo — <strong>non</strong> carica nulla. L'esposizione avviene solo
+        quando dai quel link a stardb (il sito o il Fetch di quest'app).
+
+        <h4>Offline e totale privacy</h4>
+        Solo <strong>Load JSON</strong> funziona senza connessione (i dati personaggi sono integrati). Per restare
+        privato: ottieni un JSON da un exporter locale, poi Load JSON — i dati non toccano mai stardb. (Link e UID
+        non si usano offline.)
+
+        <h4>Authkey</h4>
+        Un link wish contiene una chiave di sola lettura che scade in ~24h ed è inviata solo a stardb.
+      </div>
     </details>
     <p class="copyright">
-      Unofficial fan tool — not affiliated with or endorsed by HoYoverse. Genshin Impact and all related names © HoYoverse.<br>
-      <a href="https://github.com/VanheXen/radiance" target="_blank" rel="noopener">Source &amp; credits</a>
+      <span class="l-en">Unofficial fan tool — not affiliated with or endorsed by HoYoverse. Genshin Impact and all related names © HoYoverse.</span><span class="l-it">Strumento fan non ufficiale — non affiliato né approvato da HoYoverse. Genshin Impact e i nomi correlati © HoYoverse.</span><br>
+      <a href="https://github.com/VanheXen/radiance" target="_blank" rel="noopener"><span class="l-en">Source &amp; credits</span><span class="l-it">Codice e crediti</span></a>
     </p>
   </footer>
 </main>
@@ -293,12 +360,61 @@
 const V50 = "2024-08-28";
 const STANDARD = new Set(["Diluc","Jean","Keqing","Mona","Qiqi","Tighnari","Dehya"]);
 const GDB = "https://raw.githubusercontent.com/theBowja/genshin-db/main/src/data/";
-const STATUS = {
-  0:"Plain coin flip. No CR boost.",
-  1:"Plain coin flip. No CR boost.",
-  2:"Small (~54.5%) chance to trigger CR.",
-  3:"GUARANTEED Capturing Radiance win!",
+// ---- i18n: English / Italian for all JS-generated strings ----
+let LANG = localStorage.getItem("lang")==="it" ? "it" : "en";
+const T = {
+  en:{
+    status:["Plain coin flip. No CR boost.","Plain coin flip. No CR boost.",
+            "Small (~54.5%) chance to trigger CR.","GUARANTEED Capturing Radiance win!"],
+    statusInit:"Load your wish history to begin.",
+    placeholder:"Paste wish link or 9-digit UID",
+    fetching:"Fetching…", importing:"Importing from your link (stardb fetches from Hoyo)…",
+    loadingWishes:"Loading wishes…", dependsOnStart:"  (depends on start)",
+    noFive:"No character-banner 5★ found in this data.",
+    inconsistent:"History is internally inconsistent — not a valid post-v5.0 export?",
+    noUid:"No UID in this export.", badFile:"Bad file: {0}", couldnt:"Couldn't fetch: {0}.",
+    invalidLink:"invalid/expired wish link", importFail:"import failed ({0})",
+    noWishes:"no wishes for UID {0} ({1})",
+    noCharBanner:"this UID has wishes but none on the character banner — radiance only applies there",
+    nothingImported:"nothing imported for UID {0} yet. Paste your wish-history LINK instead (it imports fresh from the game)",
+    noteBad:"That pull can't have been a Capturing Radiance given the rest of your history — pick another or use the counter.",
+    certainPull:"✓ Counter is now certain from your radiance pull.",
+    certainConv:"✓ Counter is now certain — wins and CR resets since {0} pin it down.",
+    seedPrompt:"Set your radiance counter at {0}, or pick a 5★ you got from Capturing Radiance.",
+    chipConfirmed:"{0} confirmed rescues", chipPossible:"{0} possible",
+    chipToGuar1:"{0} loss to guaranteed", chipToGuarN:"{0} losses to guaranteed",
+    rWin:"win", rLoss:"loss", rGuar:"guaranteed", loaded:"loaded {0}", uid:"UID {0}",
+    updUpdating:"updating {0} new char(s)…", updAdded:"+{0} new char(s) added",
+    updUpToDate:"char data up to date", updOffline:"offline — using built-in char data",
+    copy:"Copy", copied:"Copied", copyManual:"copy it manually", dontRemember:"— don't remember —"
+  },
+  it:{
+    status:["Testa o croce. Nessun boost CR.","Testa o croce. Nessun boost CR.",
+            "Piccola probabilità (~54.5%) di attivare CR.","Vincita Capturing Radiance GARANTITA!"],
+    statusInit:"Carica la cronologia dei wish per iniziare.",
+    placeholder:"Incolla link wish o UID a 9 cifre",
+    fetching:"Recupero…", importing:"Import dal tuo link (stardb scarica da Hoyo)…",
+    loadingWishes:"Carico i wish…", dependsOnStart:"  (dipende dall'inizio)",
+    noFive:"Nessun 5★ del banner personaggio in questi dati.",
+    inconsistent:"Cronologia internamente incoerente — export post-v5.0 non valido?",
+    noUid:"Nessun UID in questo export.", badFile:"File non valido: {0}", couldnt:"Recupero fallito: {0}.",
+    invalidLink:"link wish non valido o scaduto", importFail:"import fallito ({0})",
+    noWishes:"nessun wish per UID {0} ({1})",
+    noCharBanner:"questo UID ha wish ma nessuno sul banner personaggio — radiance vale solo lì",
+    nothingImported:"niente importato per UID {0}. Incolla invece il LINK della cronologia (importa dal gioco)",
+    noteBad:"Quel pull non può essere stato un Capturing Radiance vista il resto della cronologia — scegline un altro o usa il contatore.",
+    certainPull:"✓ Contatore ora certo dal tuo pull radiance.",
+    certainConv:"✓ Contatore ora certo — vittorie e reset CR dal {0} lo fissano.",
+    seedPrompt:"Imposta il contatore radiance al {0}, o scegli un 5★ ottenuto da Capturing Radiance.",
+    chipConfirmed:"{0} salvataggi certi", chipPossible:"{0} possibili",
+    chipToGuar1:"{0} perdita al garantito", chipToGuarN:"{0} perdite al garantito",
+    rWin:"vinto", rLoss:"perso", rGuar:"garantito", loaded:"caricato {0}", uid:"UID {0}",
+    updUpdating:"aggiorno {0} nuovo/i pg…", updAdded:"+{0} nuovo/i pg",
+    updUpToDate:"dati personaggi aggiornati", updOffline:"offline — dati personaggi integrati",
+    copy:"Copia", copied:"Copiato", copyManual:"copia a mano", dontRemember:"— non ricordo —"
+  }
 };
+const t = (k,...a)=>{ let s=(T[LANG]&&T[LANG][k]!=null)?T[LANG][k]:T.en[k]; a.forEach((v,i)=>s=s.replace("{"+i+"}",v)); return s; };
 // escape untrusted strings (character names etc.) before putting them in innerHTML
 const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 
@@ -350,15 +466,15 @@ async function updateCharmap(){
     const known = new Set(Object.values(CHARMAP).map(v=>v.name));
     const missing = Object.entries(idx.namemap).filter(([slug,name])=>!known.has(name));
     if(missing.length){
-      upd.textContent = `updating ${missing.length} new char(s)…`;
+      upd.textContent = t("updUpdating", missing.length);
       await Promise.all(missing.map(async ([slug])=>{
         try{ const d = await (await fetch(GDB+`English/characters/${slug}.json`)).json();
              CHARMAP[d.id] = {name:d.name, rarity:d.rarity}; }catch(e){}
       }));
       localStorage.setItem("charmap", JSON.stringify(CHARMAP));
-      upd.textContent = `+${missing.length} new char(s) added`;
-    } else upd.textContent = "char data up to date";
-  } catch(e){ upd.textContent = "offline — using built-in char data"; }
+      upd.textContent = t("updAdded", missing.length);
+    } else upd.textContent = t("updUpToDate");
+  } catch(e){ upd.textContent = t("updOffline"); }
 }
 
 // ---- analysis ----
@@ -390,12 +506,12 @@ function render(wishes, fname){
     document.body.dataset.state = 1;
     document.getElementById("counter").textContent = "—";
     document.querySelectorAll(".pip").forEach(p=>p.classList.remove("on"));
-    document.getElementById("status").textContent = "No character-banner 5★ found in this data.";
+    document.getElementById("status").textContent = t("noFive");
     document.getElementById("summary").innerHTML = "";
     document.getElementById("note").textContent = "";
     document.getElementById("seedbox").hidden = true;
     document.getElementById("tbl").hidden = true;
-    document.getElementById("src").textContent = fname ? "loaded " + fname : "";
+    document.getElementById("src").textContent = fname ? t("loaded", fname) : "";
     return;
   }
 
@@ -411,8 +527,7 @@ function render(wishes, fname){
     [counter, log] = radiance(events, 1);     // full history: start is known (1 at v5.0)
   } else {
     let feas = feasibleStarts(events);
-    if(!feas.length){ document.getElementById("status").textContent =
-        "History is internally inconsistent — not a valid post-v5.0 export?"; return; }
+    if(!feas.length){ document.getElementById("status").textContent = t("inconsistent"); return; }
 
     // populate the "which 5★ was your radiance" picker from WIN events (stable per file)
     const cp = document.getElementById("crpick"), prevPick = cp.value;
@@ -443,30 +558,29 @@ function render(wishes, fname){
 
     [counter, log] = certain ? feas[0][1] : radiance(events, Number(seedSel.value));
 
-    note = badAnchor
-      ? `That pull can't have been a Capturing Radiance given the rest of your history — pick another or use the counter.`
-      : certain
-        ? `✓ Counter is now certain${crIdx>=0?" from your radiance pull":" — wins and CR resets since "+earliest+" pin it down"}.`
-        : `Set your radiance counter at ${earliest}, or pick a 5★ you got from Capturing Radiance.`;
+    note = badAnchor ? t("noteBad")
+         : certain ? (crIdx>=0 ? t("certainPull") : t("certainConv", earliest))
+         : t("seedPrompt", earliest);
   }
 
-  document.getElementById("src").textContent = fname ? "loaded " + fname : "";
+  document.getElementById("src").textContent = fname ? t("loaded", fname) : "";
   document.body.dataset.state = counter;
   document.getElementById("counter").textContent = counter;
-  document.getElementById("status").textContent = STATUS[counter] + (certain ? "" : "  (depends on start)");
+  document.getElementById("status").textContent = T[LANG].status[counter] + (certain ? "" : t("dependsOnStart"));
   document.getElementById("note").textContent = note;
   document.querySelectorAll(".pip").forEach((p,i)=> p.classList.toggle("on", i < counter));
 
   // CR procs are only "confirmed" in the start-independent tail (index >= i0).
   const conf = log.filter((r,i)=> i>=i0 && r[5].startsWith("CR PROC")).length;
+  const poss = log.filter(r=>r[5].startsWith("CR-eligible")).length;
   const togo = Math.max(0,3-counter);
   document.getElementById("summary").innerHTML =
-    `<span class="chip teal"><b>${conf}</b> confirmed rescues</span>` +
-    `<span class="chip"><b>${log.filter(r=>r[5].startsWith("CR-eligible")).length}</b> possible</span>` +
-    `<span class="chip"><b>${togo}</b> loss${togo===1?"":"es"} to guaranteed</span>`;
+    `<span class="chip teal">${t("chipConfirmed", "<b>"+conf+"</b>")}</span>` +
+    `<span class="chip">${t("chipPossible", "<b>"+poss+"</b>")}</span>` +
+    `<span class="chip">${t(togo===1?"chipToGuar1":"chipToGuarN", "<b>"+togo+"</b>")}</span>`;
 
   const tb=document.querySelector("#tbl tbody"); tb.innerHTML="";
-  const RLBL = {WIN:"win", LOSS:"loss", GUARANTEE:"guaranteed"};
+  const RLBL = {WIN:t("rWin"), LOSS:t("rLoss"), GUARANTEE:t("rGuar")};
   const NLBL = {"CR PROC (guaranteed)":"✦ radiance", "CR-eligible win (~54.5%)":"✦ radiance?"};
   log.forEach(([ts,name,res,cin,cout,nt,pity], i)=>{
     const cls = nt.startsWith("CR PROC")?"note-cr":nt.startsWith("CR-eligible")?"note-cre":"";
@@ -492,14 +606,14 @@ document.getElementById("file").addEventListener("change", e=>{
   r.onload=()=>{
     try{
       const uids=JSON.parse(r.result).user.gi.uids;
-      if(!uids||!uids.length){ document.getElementById("status").textContent="No UID in this export."; return; }
+      if(!uids||!uids.length){ document.getElementById("status").textContent=t("noUid"); return; }
       LOADED={uids, fname:f.name};
       const up=document.getElementById("uidpick");
       up.innerHTML="";
       uids.forEach((u,i)=>{ const o=document.createElement("option"); o.value=i; o.textContent="UID "+u.uid; up.appendChild(o); });
       up.value="0"; up.hidden = uids.length<2;     // only show the picker when there's a choice
       showUid(0);
-    }catch(err){ document.getElementById("status").textContent="Bad file: "+err.message; }
+    }catch(err){ document.getElementById("status").textContent=t("badFile", err.message); }
   };
   r.readAsText(f);
 });
@@ -514,40 +628,53 @@ async function fetchWishes(input){
   const v = input.trim();
   if(!v) return;
   const btn = document.getElementById("fetch"), status = document.getElementById("status");
-  btn.disabled = true; status.textContent = "Fetching…";
+  btn.disabled = true; status.textContent = t("fetching");
   try {
     let uid;
     if(/^\d{6,}$/.test(v)){
       uid = v;                                   // plain UID
     } else {
-      status.textContent = "Importing from your link (stardb fetches from Hoyo)…";
+      status.textContent = t("importing");
       const res = await fetch(`${API}/gi/wishes-import`, {
         method:"POST", headers:{"content-type":"application/json"},
         body: JSON.stringify({ url: v }) });
-      if(!res.ok) throw new Error(res.status===400 ? "invalid/expired wish link" : "import failed ("+res.status+")");
+      if(!res.ok) throw new Error(res.status===400 ? t("invalidLink") : t("importFail", res.status));
       uid = (await res.json()).uid;
     }
-    status.textContent = "Loading wishes…";
+    status.textContent = t("loadingWishes");
     const wres = await fetch(`${API}/gi/wishes/${uid}?lang=en`);
-    if(!wres.ok) throw new Error("no wishes for UID "+uid+" ("+wres.status+")");
+    if(!wres.ok) throw new Error(t("noWishes", uid, wres.status));
     const w = await wres.json();
     if(!w.character || !w.character.length){
       const total = ["beginner","standard","weapon","chronicled"].reduce((n,k)=>n+(w[k]?.length||0),0);
-      throw new Error(total
-        ? "this UID has wishes but none on the character banner — radiance only applies there"
-        : "nothing imported for UID "+uid+" yet. Paste your wish-history LINK instead (it imports fresh from the game)");
+      throw new Error(total ? t("noCharBanner") : t("nothingImported", uid));
     }
     document.getElementById("uidpick").hidden = true;   // fetch is always a single UID
-    render(w.character, "UID "+uid);
+    render(w.character, t("uid", uid));
   } catch(e){
-    status.textContent = "Couldn't fetch: " + e.message + ".";
+    status.textContent = t("couldnt", e.message);
   } finally { btn.disabled = false; }
 }
 document.getElementById("fetch").addEventListener("click", ()=> fetchWishes(document.getElementById("link").value));
 document.getElementById("link").addEventListener("keydown", e=>{ if(e.key==="Enter") fetchWishes(e.target.value); });
 
-// "Details" link under the field opens the privacy disclosure (anchor jump alone won't expand it)
-document.querySelector(".field-warn a").addEventListener("click", ()=>{ document.getElementById("privacy").open = true; });
+// "Details" link(s) under the field open the privacy disclosure (anchor jump alone won't expand it)
+document.querySelectorAll(".field-warn a").forEach(a=>a.addEventListener("click", ()=>{ document.getElementById("privacy").open = true; }));
+
+// ---- language toggle ----
+function applyLang(lang){
+  LANG = lang==="it" ? "it" : "en";
+  localStorage.setItem("lang", LANG);
+  document.body.dataset.lang = LANG;
+  document.querySelectorAll(".langtoggle button").forEach(b=> b.classList.toggle("active", b.dataset.setlang===LANG));
+  document.getElementById("link").placeholder = t("placeholder");
+  const cc = document.getElementById("copycmd"); if(cc) cc.textContent = t("copy");
+  const cp = document.getElementById("crpick"); if(cp && cp.options[0]) cp.options[0].textContent = t("dontRemember");
+  if(LAST) render(LAST.wishes, LAST.fname);
+  else document.getElementById("status").textContent = t("statusInit");
+}
+document.querySelectorAll(".langtoggle button").forEach(b=> b.addEventListener("click", ()=> applyLang(b.dataset.setlang)));
+applyLang(LANG);
 
 // ---- sample data: let people see a result before importing anything ----
 function demoData(){
@@ -571,8 +698,8 @@ document.getElementById("demo").addEventListener("click", ()=>{
 document.getElementById("copycmd").addEventListener("click", e=>{
   const cmd="iwr -useb stardb.gg/wish | iex";
   (navigator.clipboard ? navigator.clipboard.writeText(cmd) : Promise.reject())
-    .then(()=>{ e.target.textContent="Copied"; setTimeout(()=>e.target.textContent="Copy",1500); })
-    .catch(()=>{ e.target.textContent="Copy it manually"; setTimeout(()=>e.target.textContent="Copy",1800); });
+    .then(()=>{ e.target.textContent=t("copied"); setTimeout(()=>e.target.textContent=t("copy"),1500); })
+    .catch(()=>{ e.target.textContent=t("copyManual"); setTimeout(()=>e.target.textContent=t("copy"),1800); });
 });
 
 updateCharmap();
