@@ -545,6 +545,7 @@ function render(wishes, fname){
 
   if(!partial){
     [counter, log] = radiance(events, 1);     // full history: start is known (1 at v5.0)
+    document.getElementById("seedbox").hidden = true;   // hide any seedbox left over from a prior partial load
   } else {
     let feas = feasibleStarts(events);
     if(!feas.length){ document.getElementById("status").textContent = t("inconsistent"); return; }
