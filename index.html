@@ -65,6 +65,9 @@
     border-radius:10px; padding:9px 15px; font-size:13px; cursor:pointer; transition:border-color .2s}
   label.file:hover{border-color:var(--gold-dim)}
   .alt-note{color:var(--dim); font-size:12px}
+  .ghost{background:transparent; border:1px solid var(--line); color:var(--dim);
+    border-radius:10px; padding:9px 14px; font-size:13px; cursor:pointer; transition:border-color .2s, color .2s}
+  .ghost:hover{border-color:var(--gold-dim); color:var(--fg)}
   #uidpick{background:var(--panel); color:var(--fg); border:1px solid var(--line);
     border-radius:10px; padding:9px 11px; font-size:13px}
   #src{color:var(--dim); font-size:12px}
@@ -82,9 +85,13 @@
   .help-body ol{margin:3px 0 8px; padding-left:20px}
   .help-body li{margin:3px 0}
   .help-body strong{color:var(--fg)} .help-body em{color:var(--fg); font-style:normal}
-  .cmd{display:block; margin:7px 0 2px; padding:9px 12px; background:#0f0d18;
+  .cmd-row{display:flex; gap:8px; align-items:stretch; margin:7px 0 2px}
+  .cmd{flex:1; min-width:0; padding:9px 12px; background:#0f0d18;
     border:1px solid var(--line); border-radius:8px; color:var(--gold); font-size:12.5px;
-    font-family:var(--mono); user-select:all; overflow-x:auto}
+    font-family:var(--mono); user-select:all; overflow-x:auto; white-space:nowrap}
+  .copy{flex:none; background:var(--panel2); border:1px solid var(--line); color:var(--gold);
+    border-radius:8px; padding:0 13px; font-size:12px; cursor:pointer; transition:border-color .2s}
+  .copy:hover{border-color:var(--gold-dim)}
   .tiny{font-size:11.5px; margin-top:8px}
 
   /* ---------- hero result ---------- */
@@ -117,6 +124,7 @@
     color:var(--fg); background:rgba(255,255,255,.02)}
   .chip b{color:var(--gold); font-weight:700} .chip.teal b{color:var(--teal)}
   #note{font-size:12.5px; color:var(--dim); line-height:1.55; margin:14px auto 0; max-width:440px}
+  .legend{color:var(--faint); font-size:11px; margin:14px 0 0}
 
   /* ---------- seedbox (partial history) ---------- */
   #seedbox{margin-top:18px; padding-top:16px; border-top:1px solid var(--line); text-align:left}
@@ -175,7 +183,7 @@
   <!-- INPUT -->
   <section class="card">
     <div class="field">
-      <input id="link" type="text" placeholder="Paste wish link or 9-digit UID" autocomplete="off" spellcheck="false">
+      <input id="link" type="text" placeholder="Paste wish link or 9-digit UID" autocomplete="off" spellcheck="false" aria-label="Wish history link or 9-digit UID">
       <button id="fetch">Fetch</button>
     </div>
     <p class="field-warn">Using a link or UID imports your wishes to stardb, making them <strong>public to anyone with your UID</strong>. To stay private, use Load&nbsp;JSON. <a href="#privacy">Details</a></p>
@@ -183,7 +191,8 @@
     <div class="alt">
       <label class="file">Load JSON<input id="file" type="file" accept=".json" hidden></label>
       <span class="alt-note">stays on your device</span>
-      <select id="uidpick" hidden></select>
+      <button id="demo" class="ghost" type="button">Try sample data</button>
+      <select id="uidpick" hidden aria-label="Choose account UID"></select>
       <span id="src"></span>
     </div>
 
@@ -195,7 +204,7 @@
           <li>Start Genshin on your PC and open <em>Wishes → History</em>.</li>
           <li>Open <em>PowerShell</em> (search "PowerShell" in the Start menu).</li>
           <li>Run this, then copy its output (your wish link):
-            <code class="cmd">iwr -useb stardb.gg/wish | iex</code></li>
+            <span class="cmd-row"><code class="cmd">iwr -useb stardb.gg/wish | iex</code><button type="button" class="copy" id="copycmd" aria-label="Copy command">Copy</button></span></li>
           <li>Paste that link above and press <em>Fetch</em>.</li>
         </ol>
         <p><strong>UID</strong> — after importing once:</p>
@@ -203,7 +212,7 @@
           <li>Do the link import above at least once (here or on stardb.gg/wish).</li>
           <li>Then just type your <em>9-digit UID</em> (bottom-right in-game) and press <em>Fetch</em>.</li>
         </ol>
-        <p class="tiny">Not on Windows? Use the <a href="https://github.com/juliuskreutz/stardb-exporter" target="_blank" rel="noopener">stardb exporter</a> or <a href="https://stardb.gg/en/genshin/wish-import" target="_blank" rel="noopener">stardb.gg/wish</a>, then load via UID or JSON.</p>
+        <p class="tiny"><strong>On mobile or console?</strong> The link step needs a PC — import once on a PC, then use your <em>UID</em> here (or Load JSON). On PC but not Windows? Use the <a href="https://github.com/juliuskreutz/stardb-exporter" target="_blank" rel="noopener">stardb exporter</a> or <a href="https://stardb.gg/en/genshin/wish-import" target="_blank" rel="noopener">stardb.gg/wish</a>.</p>
       </div>
     </details>
     <div id="upd"></div>
@@ -218,14 +227,15 @@
     <p id="status">Load your wish history to begin.</p>
     <div id="summary"></div>
     <p id="note"></p>
+    <p class="legend">0–1 · normal 50/50&nbsp;&nbsp;|&nbsp;&nbsp;2 · ~55% boosted&nbsp;&nbsp;|&nbsp;&nbsp;3 · next 50/50 guaranteed</p>
 
     <div id="seedbox" hidden>
       <div class="warn">History starts <b id="seeddate"></b> — after v5.0 (2024-08-28). Anchor it below, strongest first:</div>
       <label class="seed"><span class="rank">1 · most reliable</span> A 5★ you got <i>from Capturing Radiance</i>:
-        <select id="crpick"><option value="-1">— don't remember —</option></select>
+        <select id="crpick" aria-label="5-star obtained from Capturing Radiance"><option value="-1">— don't remember —</option></select>
       </label>
       <label class="seed"><span class="rank">2 · fallback</span> Or your radiance counter at that date:
-        <select id="seed"><option>0</option><option selected>1</option><option>2</option><option>3</option></select>
+        <select id="seed" aria-label="Radiance counter at start date"><option>0</option><option selected>1</option><option>2</option><option>3</option></select>
       </label>
       <div class="hint">Picking the radiance pull self-checks (the game shows a golden animation for it) and pins everything after it. The counter value only relies on memory.</div>
     </div>
@@ -538,6 +548,32 @@ document.getElementById("link").addEventListener("keydown", e=>{ if(e.key==="Ent
 
 // "Details" link under the field opens the privacy disclosure (anchor jump alone won't expand it)
 document.querySelector(".field-warn a").addEventListener("click", ()=>{ document.getElementById("privacy").open = true; });
+
+// ---- sample data: let people see a result before importing anything ----
+function demoData(){
+  // [date, featured-or-standard name, 5★ pity] — builds a believable full history
+  const fives=[["2024-07-10","Venti",78],["2024-08-29","Furina",76],["2024-10-01","Mona",80],
+    ["2024-10-10","Nahida",75],["2024-11-05","Qiqi",82],["2024-11-12","Arlecchino",70],
+    ["2024-12-01","Jean",79],["2024-12-08","Clorinde",74],["2025-01-01","Mavuika",60]];
+  const out=[]; let id=0;
+  for(const [date,name,pity] of fives){
+    for(let k=1;k<pity;k++) out.push({type:"weapon",name:"—",rarity:3,item_id:11301,id:String(id++),timestamp:date+"T12:00:00Z"});
+    out.push({type:"character",name,rarity:5,item_id:0,id:String(id++),timestamp:date+"T12:00:00Z"});
+  }
+  return out;
+}
+document.getElementById("demo").addEventListener("click", ()=>{
+  document.getElementById("uidpick").hidden = true;
+  render(demoData(), "sample data");
+});
+
+// ---- copy the PowerShell command ----
+document.getElementById("copycmd").addEventListener("click", e=>{
+  const cmd="iwr -useb stardb.gg/wish | iex";
+  (navigator.clipboard ? navigator.clipboard.writeText(cmd) : Promise.reject())
+    .then(()=>{ e.target.textContent="Copied"; setTimeout(()=>e.target.textContent="Copy",1500); })
+    .catch(()=>{ e.target.textContent="Copy it manually"; setTimeout(()=>e.target.textContent="Copy",1800); });
+});
 
 updateCharmap();
 </script>
