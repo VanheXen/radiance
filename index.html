@@ -189,7 +189,7 @@
   </div>
   <header>
     <h1>Capturing Radiance</h1>
-    <p class="tagline"><span class="l-en">Your Genshin 50/50 status, reconstructed from your wish history.</span><span class="l-it">Il tuo stato 50/50 di Genshin, ricostruito dalla cronologia dei wish.</span></p>
+    <p class="tagline"><span class="l-en">Your Genshin 50/50 status, reconstructed from your wish history.</span><span class="l-it">Il tuo stato 50/50 di Genshin, ricostruito dalla cronologia dei desideri.</span></p>
   </header>
 
   <!-- INPUT -->
@@ -198,7 +198,7 @@
       <input id="link" type="text" placeholder="Paste wish link or 9-digit UID" autocomplete="off" spellcheck="false" aria-label="Wish history link or 9-digit UID">
       <button id="fetch">Fetch</button>
     </div>
-    <p class="field-warn"><span class="l-en">Using a link or UID imports your wishes to stardb, making them <strong>public to anyone with your UID</strong>. To stay private, use Load&nbsp;JSON. <a href="#privacy">Details</a></span><span class="l-it">Usare un link o UID importa i tuoi wish su stardb, rendendoli <strong>pubblici per chiunque conosca il tuo UID</strong>. Per restare privato, usa Load&nbsp;JSON. <a href="#privacy">Dettagli</a></span></p>
+    <p class="field-warn"><span class="l-en">Using a link or UID imports your wishes to stardb, making them <strong>public to anyone with your UID</strong>. To stay private, use Load&nbsp;JSON. <a href="#privacy">Details</a></span><span class="l-it">Usare un link o UID importa i tuoi desideri su stardb, rendendoli <strong>pubblici per chiunque conosca il tuo UID</strong>. Per restare privato, usa Load&nbsp;JSON. <a href="#privacy">Dettagli</a></span></p>
 
     <div class="alt">
       <label class="file">Load JSON<input id="file" type="file" accept=".json" hidden></label>
@@ -227,11 +227,11 @@
         <p class="tiny"><strong>On mobile or console?</strong> The link step needs a PC — import once on a PC, then use your <em>UID</em> here (or Load JSON). On PC but not Windows? Use the <a href="https://github.com/juliuskreutz/stardb-exporter" target="_blank" rel="noopener">stardb exporter</a> or <a href="https://stardb.gg/en/genshin/wish-import" target="_blank" rel="noopener">stardb.gg/wish</a>.</p>
       </div>
       <div class="help-body l-it">
-        <p><strong>Link della cronologia wish</strong> (Windows) — scarica dati aggiornati:</p>
+        <p><strong>Link della cronologia dei desideri</strong> (Windows) — scarica dati aggiornati:</p>
         <ol>
-          <li>Avvia Genshin sul PC e apri <em>Wish → Cronologia</em>.</li>
+          <li>Avvia Genshin sul PC e apri <em>Desideri → Cronologia</em>.</li>
           <li>Apri <em>PowerShell</em> (cerca "PowerShell" nel menu Start).</li>
-          <li>Esegui questo, poi copia l'output (il tuo link wish):
+          <li>Esegui questo, poi copia l'output (il tuo link dei desideri):
             <span class="cmd-row"><code class="cmd">iwr -useb stardb.gg/wish | iex</code></span></li>
           <li>Incolla quel link sopra e premi <em>Fetch</em>.</li>
         </ol>
@@ -325,14 +325,14 @@
         ha mai pubblicato il meccanismo reale. I risultati sono stime e possono sbagliare, soprattutto con cronologie parziali.
 
         <h4>I tuoi dati — come carichi decide cosa viene esposto</h4>
-        Quest'app contatta solo <strong>stardb.gg</strong> (per i wish) e <strong>genshin-db</strong>
+        Quest'app contatta solo <strong>stardb.gg</strong> (per i desideri) e <strong>genshin-db</strong>
         (nomi dei personaggi — nessun dato personale).
         <ul>
           <li><strong>Load JSON</strong> — non invia nulla; i dati restano sul tuo dispositivo.</li>
           <li><strong>Link / UID (Fetch)</strong> — richiedono internet e passano da stardb. Inviare un link
             importa la cronologia su stardb, che la rende <strong>leggibile pubblicamente da chiunque conosca
             il tuo UID</strong> (policy di stardb). L'UID legge solo quei dati pubblici. Il toggle <em>private</em>
-            di stardb non lo nasconde — solo cancellare i wish su stardb lo fa.</li>
+            di stardb non lo nasconde — solo cancellare i desideri su stardb lo fa.</li>
         </ul>
 
         <h4>Lo script di estrazione è sicuro di per sé</h4>
@@ -346,7 +346,7 @@
         non si usano offline.)
 
         <h4>Authkey</h4>
-        Un link wish contiene una chiave di sola lettura che scade in ~24h ed è inviata solo a stardb.
+        Un link dei desideri contiene una chiave di sola lettura che scade in ~24h ed è inviata solo a stardb.
       </div>
     </details>
     <p class="copyright">
@@ -391,14 +391,14 @@ const T = {
   it:{
     status:["Testa o croce. Nessun boost CR.","Testa o croce. Nessun boost CR.",
             "Piccola probabilità (~54.5%) di attivare CR.","Vincita Capturing Radiance GARANTITA!"],
-    statusInit:"Carica la cronologia dei wish per iniziare.",
-    placeholder:"Incolla link wish o UID a 9 cifre",
+    statusInit:"Carica la cronologia dei desideri per iniziare.",
+    placeholder:"Incolla link desideri o UID a 9 cifre",
     fetching:"Recupero…", importing:"Import dal tuo link (stardb scarica da Hoyo)…",
-    loadingWishes:"Carico i wish…", dependsOnStart:"  (dipende dall'inizio)",
+    loadingWishes:"Carico i desideri…", dependsOnStart:"  (dipende dall'inizio)",
     noFive:"Nessun 5★ del banner personaggio in questi dati.",
     inconsistent:"Cronologia internamente incoerente — export post-v5.0 non valido?",
     noUid:"Nessun UID in questo export.", badFile:"File non valido: {0}", couldnt:"Recupero fallito: {0}.",
-    invalidLink:"link wish non valido o scaduto", importFail:"import fallito ({0})",
+    invalidLink:"link desideri non valido o scaduto", importFail:"import fallito ({0})",
     noWishes:"nessun wish per UID {0} ({1})",
     noCharBanner:"questo UID ha wish ma nessuno sul banner personaggio — radiance vale solo lì",
     nothingImported:"niente importato per UID {0}. Incolla invece il LINK della cronologia (importa dal gioco)",

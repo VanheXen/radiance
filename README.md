@@ -95,10 +95,10 @@ node test_ui.js         # interactive UI paths (DOM-stubbed)
 ### Come si usa
 Apri l'app, poi carica la cronologia in uno dei tre modi.
 
-**A · Link della cronologia wish** (Windows — scarica dati aggiornati)
-1. Avvia Genshin sul PC e apri **Wish → Cronologia**.
+**A · Link della cronologia dei desideri** (Windows — scarica dati aggiornati)
+1. Avvia Genshin sul PC e apri **Desideri → Cronologia**.
 2. Apri **PowerShell** (cerca "PowerShell" nel menu Start).
-3. Esegui questo, poi copia l'output (il tuo link wish):
+3. Esegui questo, poi copia l'output (il tuo link dei desideri):
    ```powershell
    iwr -useb stardb.gg/wish | iex
    ```
@@ -134,7 +134,7 @@ pull garantiti (dopo un 50/50 perso) non lo cambiano.
 - **Load JSON** non invia nulla; i dati restano in locale.
 - **Link / UID** richiedono internet e passano da **stardb.gg**. Inviare un link **importa la cronologia
   su stardb, rendendola leggibile pubblicamente da chiunque conosca il tuo UID** (policy di stardb). Il
-  toggle *private* di stardb **non** nasconde l'API dei wish — solo cancellare i wish su stardb lo fa.
+  toggle *private* di stardb **non** nasconde l'API dei desideri — solo cancellare i desideri su stardb lo fa.
 - Lo script di estrazione (`stardb.gg/wish` / stardb-exporter) è sicuro di per sé: legge la cache locale del
   gioco e valida il link contro i server di Hoyo — **non carica nulla**. L'esposizione avviene solo quando
   dai il link a stardb.
@@ -144,7 +144,7 @@ pull garantiti (dopo un 50/50 perso) non lo cambiano.
 
 ### Crediti
 - [genshin-db](https://github.com/theBowja/genshin-db) di theBowja — nomi, rarità, ID dei personaggi.
-- [stardb.gg](https://stardb.gg) — import dei wish e l'API pubblica usata dal fetch via link/UID.
+- [stardb.gg](https://stardb.gg) — import dei desideri e l'API pubblica usata dal fetch via link/UID.
 - Modello Capturing Radiance — [analisi su ~4M pull di u/OneBST](https://www.reddit.com/r/Genshin_Impact/comments/1hd1sqa/), affinata da u/benjaminhsieh.
 - Modello soft/hard pity e drop-rate — Cgg / [genshin-wishes.com](https://genshin-wishes.com), [analisi HoYoLAB](https://www.hoyolab.com/article/497840).
 - **Genshin Impact** © HoYoverse. Strumento fan non ufficiale, non affiliato né approvato da HoYoverse.
