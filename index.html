@@ -248,7 +248,7 @@
 
   <!-- RESULT -->
   <section class="card hero">
-    <p class="eyebrow"><span class="l-en">Radiance Counter</span><span class="l-it">Contatore Radiance</span></p>
+    <p class="eyebrow"><span class="l-en">Radiance Counter</span><span class="l-it">Contatore Splendore</span></p>
     <div class="pips"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div>
     <div class="counter-line"><span id="counter">—</span><span class="of"> / 3</span></div>
     <p class="sub"><span class="l-en">losses banked toward a guaranteed pull</span><span class="l-it">perdite accumulate verso un pull garantito</span></p>
@@ -261,15 +261,15 @@
       <div class="warn"><span class="l-en">History starts </span><span class="l-it">La cronologia inizia il </span><b id="seeddate"></b><span class="l-en"> — after v5.0 (2024-08-28). Anchor it below, strongest first:</span><span class="l-it"> — dopo la v5.0 (28-08-2024). Fissalo sotto, dal più affidabile:</span></div>
       <label class="seed">
         <span class="rank"><span class="l-en">1 · most reliable</span><span class="l-it">1 · più affidabile</span></span>
-        <span class="l-en">A 5★ you got <i>from Capturing Radiance</i>:</span><span class="l-it">Un 5★ ottenuto <i>da Capturing Radiance</i>:</span>
+        <span class="l-en">A 5★ you got <i>from Capturing Radiance</i>:</span><span class="l-it">Un 5★ ottenuto <i>dalla Conquista dello splendore</i>:</span>
         <select id="crpick" aria-label="5-star from Capturing Radiance"><option value="-1">— —</option></select>
       </label>
       <label class="seed">
         <span class="rank"><span class="l-en">2 · fallback</span><span class="l-it">2 · ripiego</span></span>
-        <span class="l-en">Or your radiance counter at that date:</span><span class="l-it">Oppure il contatore radiance a quella data:</span>
+        <span class="l-en">Or your radiance counter at that date:</span><span class="l-it">Oppure il contatore dello splendore a quella data:</span>
         <select id="seed" aria-label="Radiance counter at start date"><option>0</option><option selected>1</option><option>2</option><option>3</option></select>
       </label>
-      <div class="hint"><span class="l-en">Picking the radiance pull self-checks (the game shows a golden animation for it) and pins everything after it. The counter value only relies on memory.</span><span class="l-it">Scegliere il pull radiance si auto-verifica (il gioco mostra un'animazione dorata) e fissa tutto ciò che viene dopo. Il valore del contatore dipende solo dalla memoria.</span></div>
+      <div class="hint"><span class="l-en">Picking the radiance pull self-checks (the game shows a golden animation for it) and pins everything after it. The counter value only relies on memory.</span><span class="l-it">Scegliere il pull dello splendore si auto-verifica (il gioco mostra un'animazione dorata) e fissa tutto ciò che viene dopo. Il valore del contatore dipende solo dalla memoria.</span></div>
     </div>
   </section>
 
@@ -321,7 +321,7 @@
       </div>
       <div class="legal-body l-it">
         <h4>Stime, non verità</h4>
-        Il contatore Capturing Radiance usa un <em>modello non ufficiale della community</em> — HoYoverse non
+        Il contatore Conquista dello splendore usa un <em>modello non ufficiale della community</em> — HoYoverse non
         ha mai pubblicato il meccanismo reale. I risultati sono stime e possono sbagliare, soprattutto con cronologie parziali.
 
         <h4>I tuoi dati — come carichi decide cosa viene esposto</h4>
@@ -386,11 +386,12 @@ const T = {
     rWin:"win", rLoss:"loss", rGuar:"guaranteed", loaded:"loaded {0}", uid:"UID {0}",
     updUpdating:"updating {0} new char(s)…", updAdded:"+{0} new char(s) added",
     updUpToDate:"char data up to date", updOffline:"offline — using built-in char data",
-    copy:"Copy", copied:"Copied", copyManual:"copy it manually", dontRemember:"— don't remember —"
+    copy:"Copy", copied:"Copied", copyManual:"copy it manually", dontRemember:"— don't remember —",
+    nRad:"✦ radiance", nRadQ:"✦ radiance?"
   },
   it:{
     status:["Testa o croce. Nessun boost CR.","Testa o croce. Nessun boost CR.",
-            "Piccola probabilità (~54.5%) di attivare CR.","Vincita Capturing Radiance GARANTITA!"],
+            "Piccola probabilità (~54.5%) di attivare CR.","Vincita Conquista dello splendore GARANTITA!"],
     statusInit:"Carica la cronologia dei desideri per iniziare.",
     placeholder:"Incolla link desideri o UID a 9 cifre",
     fetching:"Recupero…", importing:"Import dal tuo link (stardb scarica da Hoyo)…",
@@ -399,19 +400,20 @@ const T = {
     inconsistent:"Cronologia internamente incoerente — export post-v5.0 non valido?",
     noUid:"Nessun UID in questo export.", badFile:"File non valido: {0}", couldnt:"Recupero fallito: {0}.",
     invalidLink:"link desideri non valido o scaduto", importFail:"import fallito ({0})",
-    noWishes:"nessun wish per UID {0} ({1})",
-    noCharBanner:"questo UID ha wish ma nessuno sul banner personaggio — radiance vale solo lì",
+    noWishes:"nessun desiderio per UID {0} ({1})",
+    noCharBanner:"questo UID ha desideri ma nessuno sul banner personaggio — lo splendore vale solo lì",
     nothingImported:"niente importato per UID {0}. Incolla invece il LINK della cronologia (importa dal gioco)",
-    noteBad:"Quel pull non può essere stato un Capturing Radiance vista il resto della cronologia — scegline un altro o usa il contatore.",
-    certainPull:"✓ Contatore ora certo dal tuo pull radiance.",
+    noteBad:"Quel pull non può essere stata una Conquista dello splendore vista il resto della cronologia — scegline un altro o usa il contatore.",
+    certainPull:"✓ Contatore ora certo dal tuo pull dello splendore.",
     certainConv:"✓ Contatore ora certo — vittorie e reset CR dal {0} lo fissano.",
-    seedPrompt:"Imposta il contatore radiance al {0}, o scegli un 5★ ottenuto da Capturing Radiance.",
+    seedPrompt:"Imposta il contatore dello splendore al {0}, o scegli un 5★ ottenuto dalla Conquista dello splendore.",
     chipConfirmed:"{0} salvataggi certi", chipPossible:"{0} possibili",
     chipToGuar1:"{0} perdita al garantito", chipToGuarN:"{0} perdite al garantito",
     rWin:"vinto", rLoss:"perso", rGuar:"garantito", loaded:"caricato {0}", uid:"UID {0}",
     updUpdating:"aggiorno {0} nuovo/i pg…", updAdded:"+{0} nuovo/i pg",
     updUpToDate:"dati personaggi aggiornati", updOffline:"offline — dati personaggi integrati",
-    copy:"Copia", copied:"Copiato", copyManual:"copia a mano", dontRemember:"— non ricordo —"
+    copy:"Copia", copied:"Copiato", copyManual:"copia a mano", dontRemember:"— non ricordo —",
+    nRad:"✦ splendore", nRadQ:"✦ splendore?"
   }
 };
 const t = (k,...a)=>{ let s=(T[LANG]&&T[LANG][k]!=null)?T[LANG][k]:T.en[k]; a.forEach((v,i)=>s=s.replace("{"+i+"}",v)); return s; };
@@ -581,7 +583,7 @@ function render(wishes, fname){
 
   const tb=document.querySelector("#tbl tbody"); tb.innerHTML="";
   const RLBL = {WIN:t("rWin"), LOSS:t("rLoss"), GUARANTEE:t("rGuar")};
-  const NLBL = {"CR PROC (guaranteed)":"✦ radiance", "CR-eligible win (~54.5%)":"✦ radiance?"};
+  const NLBL = {"CR PROC (guaranteed)":t("nRad"), "CR-eligible win (~54.5%)":t("nRadQ")};
   log.forEach(([ts,name,res,cin,cout,nt,pity], i)=>{
     const cls = nt.startsWith("CR PROC")?"note-cr":nt.startsWith("CR-eligible")?"note-cre":"";
     const uncertain = i < i0;                // pre-convergence row: counter not yet pinned (row dimmed)

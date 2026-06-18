@@ -87,9 +87,9 @@ node test_ui.js         # interactive UI paths (DOM-stubbed)
 ## Italiano
 
 ### Cosa fa
-- Ricostruisce il **contatore Capturing Radiance** post-v5.0 (0–3) dalla storia dei tuoi 50/50.
+- Ricostruisce il **contatore Conquista dello splendore** post-v5.0 (0–3) dalla storia dei tuoi 50/50.
 - Dice cosa farà il **prossimo 50/50** — testa o croce (0–1), potenziato ~54.5% (2), o garantito (3).
-- Mostra la **cronologia 5★** completa del banner personaggio: pity, vinto / perso / garantito, e quali vittorie sono state salvataggi radiance.
+- Mostra la **cronologia 5★** completa del banner personaggio: pity, vinto / perso / garantito, e quali vittorie sono state salvataggi della Conquista dello splendore.
 - Funziona con storia **completa o parziale**, e fissa il contatore con certezza quando i dati lo permettono.
 
 ### Come si usa
@@ -118,14 +118,14 @@ Apri l'app, poi carica la cronologia in uno dei tre modi.
 Se i dati iniziano dopo la v5.0 (28-08-2024), il contatore può essere ambiguo. L'app lo risolve, dal metodo
 più affidabile:
 1. **Automatico** — se ogni possibile contatore iniziale porta allo stesso valore, è certo (nessun input).
-2. **Scegli il 5★ ottenuto da Capturing Radiance** (l'animazione dorata) — si auto-verifica; fissa tutto ciò che viene dopo.
+2. **Scegli il 5★ ottenuto dalla Conquista dello splendore** (l'animazione dorata) — si auto-verifica; fissa tutto ciò che viene dopo.
 3. **Inserisci il contatore** alla data d'inizio — ripiego basato sulla memoria.
 
 ### Come funziona
 Basato sull'analisi della community di ~4M pull post-v5.0
 ([reddit](https://www.reddit.com/r/Genshin_Impact/comments/1hd1sqa/)): il contatore parte da 1 alla v5.0
 (minimo 0); **solo i 50/50 lo muovono** (perso +1, vinto −1). A 2 il prossimo 50/50 ha una piccola
-probabilità (~54.5%) di radiance; a 3 è una vincita radiance garantita che riporta il contatore a 1. I
+probabilità (~54.5%) di splendore; a 3 è una vincita di splendore garantita che riporta il contatore a 1. I
 pull garantiti (dopo un 50/50 perso) non lo cambiano.
 
 ### Privacy e avvertenze
@@ -145,7 +145,7 @@ pull garantiti (dopo un 50/50 perso) non lo cambiano.
 ### Crediti
 - [genshin-db](https://github.com/theBowja/genshin-db) di theBowja — nomi, rarità, ID dei personaggi.
 - [stardb.gg](https://stardb.gg) — import dei desideri e l'API pubblica usata dal fetch via link/UID.
-- Modello Capturing Radiance — [analisi su ~4M pull di u/OneBST](https://www.reddit.com/r/Genshin_Impact/comments/1hd1sqa/), affinata da u/benjaminhsieh.
+- Modello Conquista dello splendore (Capturing Radiance) — [analisi su ~4M pull di u/OneBST](https://www.reddit.com/r/Genshin_Impact/comments/1hd1sqa/), affinata da u/benjaminhsieh.
 - Modello soft/hard pity e drop-rate — Cgg / [genshin-wishes.com](https://genshin-wishes.com), [analisi HoYoLAB](https://www.hoyolab.com/article/497840).
 - **Genshin Impact** © HoYoverse. Strumento fan non ufficiale, non affiliato né approvato da HoYoverse.
 
