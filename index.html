@@ -41,7 +41,18 @@
   button:active, label.file:active { transform:translateY(1px); }
   button:disabled { opacity:.5; cursor:default; transform:none; }
   .or { color:var(--dim); font-size:12px; }
-  .privacy { font-size:11px; color:var(--dim); margin:8px 2px 18px; line-height:1.5; }
+  .privacy { font-size:11px; color:var(--dim); margin:8px 2px 10px; line-height:1.5; }
+  .help { margin:0 2px 18px; font-size:12px; }
+  .help summary { color:var(--gold); cursor:pointer; list-style:none; width:fit-content; }
+  .help summary::-webkit-details-marker { display:none; }
+  .help summary::before { content:"▸  "; }
+  .help[open] summary::before { content:"▾  "; }
+  .help-body { color:var(--dim); line-height:1.6; margin-top:8px; }
+  .help-body p { margin:8px 0 2px; }
+  .help-body ol { margin:2px 0 6px; padding-left:20px; }
+  .help-body strong { color:var(--fg); }
+  .help-body em { color:var(--fg); font-style:normal; }
+  .help-body a { color:var(--gold-dim); }
   #src { color:var(--dim); font-size:12px; flex-basis:100%; }
 
   /* hero panel */
@@ -143,6 +154,23 @@
     <span id="upd"></span>
   </div>
   <div class="privacy">Your wish link / UID is sent only to stardb.gg over HTTPS (it already hosts your wish history) — nowhere else. The authkey is read-only and expires in ~24h. Character names are fetched from the public genshin-db repo (no personal data). <strong>Load JSON</strong> keeps your wish data on your machine.</div>
+
+  <details class="help">
+    <summary>How do I get my link or UID?</summary>
+    <div class="help-body">
+      <p><strong>Wish-history link</strong> — fetches fresh data:</p>
+      <ol>
+        <li>In Genshin, open <em>Wishes → History</em> once (this refreshes the link in the game's cache).</li>
+        <li>Get the link via <a href="https://stardb.gg/wish" target="_blank" rel="noopener">stardb.gg/wish</a> — it shows the exact command for your platform.</li>
+        <li>Paste it in the box above and press <em>Fetch</em>. The authkey is read-only (~24h) and goes only to stardb.</li>
+      </ol>
+      <p><strong>UID</strong> — after importing once:</p>
+      <ol>
+        <li>Do the link import above at least once (here or on stardb.gg/wish).</li>
+        <li>Then just type your <em>9-digit UID</em> (bottom-right corner in-game) and press <em>Fetch</em>. Only the UID is sent — re-import via link for newer pulls.</li>
+      </ol>
+    </div>
+  </details>
 
   <div class="panel">
     <div class="title">Radiance Counter</div>

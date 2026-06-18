@@ -17,12 +17,26 @@ character-banner 50/50 is a coin flip, boosted, or a guaranteed win.
 - Works with **full or partial** history, and pins the counter for certain whenever possible.
 
 ### How to use
-Open `index.html`, then either:
-1. **Paste your wish-history link** (from stardb.gg/wish or the in-game export) → **Fetch**.
-2. **Type a UID** that's already imported to stardb → **Fetch**.
-3. **Load JSON** — a stardb export file, fully offline.
+Open the app, then pick one of three ways to load your history.
 
-If an export holds several accounts, a **UID picker** appears.
+#### 1. Wish-history link — fetches fresh data
+1. In Genshin, open **Wishes → History** once. This makes the game write a temporary
+   authenticated link into its local cache.
+2. Get that link. The easiest vetted way is **[stardb.gg/wish](https://stardb.gg/wish)** — it
+   shows the exact command for your platform (e.g. a PowerShell line on PC) and hands you the URL.
+3. Copy the link, paste it into the app's box, press **Fetch**. stardb imports your history from
+   Hoyo, the app reads it back.
+   - The link carries a **read-only authkey** that expires in ~24h, and is sent **only to stardb**.
+
+#### 2. UID — after you've imported at least once
+1. Do the link import above once (via this app or stardb.gg/wish). That stores your history on stardb.
+2. From then on, just type your **9-digit UID** (shown bottom-right in-game) and press **Fetch**.
+   Only the UID is sent — no link, no authkey. Note: it reads whatever was last imported, so re-run
+   the link import when you want fresh pulls.
+
+#### 3. Load JSON — fully offline
+Export your history as a JSON file from stardb.gg/wish, then **Load JSON**. Your wish data stays on
+your machine. If the export holds several accounts, a **UID picker** appears.
 
 ### Partial history
 If your data starts after v5.0 (2024-08-28), the counter may be ambiguous. The app
@@ -79,12 +93,27 @@ node test_ui.js         # interactive UI paths (DOM-stubbed)
 - Funziona con storia **completa o parziale**, e fissa il contatore con certezza quando possibile.
 
 ### Come si usa
-Apri `index.html`, poi:
-1. **Incolla il link della cronologia dei wish** (da stardb.gg/wish o l'export in-game) → **Fetch**.
-2. **Scrivi un UID** già importato su stardb → **Fetch**.
-3. **Load JSON** — un file export di stardb, completamente offline.
+Apri l'app, poi scegli uno dei tre modi per caricare la tua cronologia.
 
-Se un export contiene più account, compare un **selettore UID**.
+#### 1. Link della cronologia wish — scarica dati aggiornati
+1. In Genshin, apri **Wish → Cronologia** una volta. Così il gioco scrive un link autenticato
+   temporaneo nella sua cache locale.
+2. Recupera quel link. Il modo più semplice e verificato è **[stardb.gg/wish](https://stardb.gg/wish)**:
+   mostra il comando esatto per la tua piattaforma (es. una riga PowerShell su PC) e ti dà l'URL.
+3. Copia il link, incollalo nella casella dell'app, premi **Fetch**. stardb importa la cronologia da
+   Hoyo e l'app la rilegge.
+   - Il link contiene un **authkey di sola lettura** che scade in ~24h, ed è inviato **solo a stardb**.
+
+#### 2. UID — dopo averlo importato almeno una volta
+1. Esegui l'import via link sopra almeno una volta (con questa app o stardb.gg/wish). Così la
+   cronologia viene salvata su stardb.
+2. Da quel momento, basta scrivere il tuo **UID a 9 cifre** (in basso a destra nel gioco) e premere
+   **Fetch**. Viene inviato solo l'UID — nessun link, nessun authkey. Nota: legge l'ultimo import,
+   quindi riesegui l'import via link quando vuoi i pull aggiornati.
+
+#### 3. Load JSON — completamente offline
+Esporta la cronologia come file JSON da stardb.gg/wish, poi **Load JSON**. I dati dei wish restano sul
+tuo dispositivo. Se l'export contiene più account, compare un **selettore UID**.
 
 ### Storia parziale
 Se i dati iniziano dopo la v5.0 (28-08-2024), il contatore può essere ambiguo. L'app
