@@ -558,7 +558,9 @@ function render(wishes, fname){
     i0 = certainFrom(feas.map(f => f[1][1]));
     certain = finals.size === 1;
 
-    document.getElementById("seedbox").hidden = false;
+    // only ask for an anchor when the counter is genuinely ambiguous; if convergence
+    // already pinned it (and the user hasn't picked an anchor), don't show the input.
+    document.getElementById("seedbox").hidden = certain && crIdx < 0;
     document.getElementById("seeddate").textContent = earliest;
     // offer only feasible starting counters; reflect any anchor narrowing
     const ok = feas.map(f => String(f[0]));
