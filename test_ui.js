@@ -114,7 +114,7 @@ const firstWin=winIdx[0], lastWin=winIdx[winIdx.length-1];
   check("UI-7 multi-UID switch (uid0=0, uid1=1)", a==="0"&&b==="1", "uid0="+a+" uid1="+b);
 })();
 
-// ===== UI-4/5/6: fetch paths (stub global.fetch -> the proxy at WORKER_URL) =====
+// ===== UI-4/5/6: fetch paths (stub global.fetch -> the proxy at PROXY_URL) =====
 function stub(routes){ global.fetch=(url,opts)=>{ for(const [re,resp] of routes){ if(re.test(url)) return Promise.resolve(typeof resp==="function"?resp():resp); } return Promise.reject(new Error("unrouted "+url)); }; }
 const json=o=>({ok:true,status:200,json:()=>Promise.resolve(o)});
 const errResp=(status,o)=>({ok:false,status,json:()=>Promise.resolve(o)});
