@@ -59,8 +59,8 @@ dello splendore**.
   mechanic, so results are estimates and can be wrong, especially on partial histories.
 - **Load JSON** sends nothing; your wish data stays local.
 - **Link (Fetch)** needs internet. Your link goes browser → proxy → HoYo; the proxy reads your
-  character-banner history and returns it. It **stores nothing and exposes nothing publicly**, and your UID
-  stays private.
+  character-banner history and returns it. It **keeps none of your wish data and exposes nothing publicly**,
+  and your UID stays private. (It briefly counts requests per IP, ~1 min, to limit abuse.)
 - The extract script reads your local game cache and validates the link against Hoyo's servers. It **does
   not upload anything**.
 - **Character names** are fetched from the public [genshin-db](https://github.com/theBowja/genshin-db) repo
@@ -141,8 +141,8 @@ I termini ufficiali EN/IT vengono dall'annuncio di HoYoverse (articolo 125274): 
   meccanismo reale, quindi i risultati sono stime e possono sbagliare, soprattutto con cronologie parziali.
 - **Load JSON** non invia nulla; i dati restano in locale.
 - **Link (Fetch)** richiede internet. Il link va browser → proxy → HoYo; il proxy legge la cronologia del
-  banner personaggio e la restituisce. **Non salva nulla e non espone nulla pubblicamente**, e il tuo UID
-  resta privato.
+  banner personaggio e la restituisce. **Non conserva i tuoi dati dei desideri e non espone nulla pubblicamente**,
+  e il tuo UID resta privato. (Conta brevemente le richieste per IP, ~1 min, per limitare gli abusi.)
 - Lo script di estrazione legge la cache locale del gioco e valida il link contro i server di Hoyo. **Non
   carica nulla**.
 - I **nomi dei personaggi** vengono scaricati dal repo pubblico [genshin-db](https://github.com/theBowja/genshin-db)
