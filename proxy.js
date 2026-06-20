@@ -17,8 +17,11 @@ const CORS = {
 };
 
 const ALLOWED_ORIGIN = "https://vanhexen.github.io"; // link fetch only from the hosted site
-const RATE_MAX = 60;                                 // requests per IP per minute
-const kv = await Deno.openKv();
+const RATE_MAX = 60;            // requests per IP per minute
+const RATE_WINDOW = 60_000;
+// In-memory per-IP limiter. Deno Deploy runs several isolates, so this is per-isolate
+// (not globally exact), but it caps single-isolate floods and needs no KV provisioning.
+const hits = new Map();         // ip -> { count, resetAt }
 
 // The link extractor (wish.ps1) is served as a static file by GitHub Pages
 // (vanhexen.github.io/radiance/wish.ps1), so this proxy only does the wish fetch.
@@ -33,13 +36,14 @@ Deno.serve(async (req) => {
     // Only serve calls from the hosted site (blocks other sites and casual scripting).
     if (req.headers.get("origin") !== ALLOWED_ORIGIN) return json({ error: "forbidden origin" }, 403);
 
-    // Per-IP rate limit: a per-minute bucket in Deno KV (auto-expires). One Fetch = one
-    // request regardless of history size (pagination is server-side), so this never hits whales.
+    // Per-IP rate limit. One Fetch = one request regardless of history size (pagination is
+    // server-side), so this never hits whales; it only caps floods.
     const ip = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() || "unknown";
-    const bucket = ["rl", ip, Math.floor(Date.now() / 60000)];
-    const used = (await kv.get(bucket)).value || 0;
-    if (used >= RATE_MAX) return json({ error: "rate limited, try again shortly" }, 429);
-    await kv.set(bucket, used + 1, { expireIn: 60000 });
+    const now = Date.now();
+    let e = hits.get(ip);
+    if (!e || now > e.resetAt) { e = { count: 0, resetAt: now + RATE_WINDOW }; hits.set(ip, e); }
+    if (++e.count > RATE_MAX) return json({ error: "rate limited, try again shortly" }, 429);
+    if (hits.size > 5000) for (const [k, v] of hits) if (now > v.resetAt) hits.delete(k); // bound memory
 
     let url;
     try {
