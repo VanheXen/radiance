@@ -1,7 +1,7 @@
 # Capturing Radiance - local wish-link extractor.
 # Reads Genshin's local web cache, finds the most recent VALID wish-history URL,
 # prints it and copies it to the clipboard. Uploads nothing, reads nothing but the cache.
-# Run:  irm https://radiance.vanhexen.deno.net/wish | iex
+# Run:  irm https://vanhexen.github.io/radiance/wish.ps1 | iex
 # (CN client: grab this file and run it with the argument "china".)
 
 Add-Type -AssemblyName System.Web

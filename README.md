@@ -25,7 +25,7 @@ Open the app, then load your history one of two ways.
 2. Open **PowerShell** (search "PowerShell" in the Start menu).
 3. Run this, then copy its output (your wish link):
    ```powershell
-   irm https://radiance.vanhexen.deno.net/wish | iex
+   irm https://vanhexen.github.io/radiance/wish.ps1 | iex
    ```
    This runs the project's own `wish.ps1` (served from the proxy). It reads your local game cache, prints the link, and uploads nothing.
 4. Paste the link into the app and press **Fetch**. A small proxy ([`proxy.js`](proxy.js)) reads your
@@ -69,7 +69,7 @@ dello splendore**.
 
 ### Credits
 - [genshin-db](https://github.com/theBowja/genshin-db) by theBowja: character names, rarities, IDs.
-- Wish-link extraction: own script ([`wish.ps1`](wish.ps1)), served from the proxy at `/wish`; reads the local game cache and uploads nothing. (Cache-parsing technique from the community: MadeBaruna and jogerj.)
+- Wish-link extraction: own script ([`wish.ps1`](wish.ps1)), served as a static file by GitHub Pages; reads the local game cache and uploads nothing. (Cache-parsing technique from the community: MadeBaruna and jogerj.)
 - Wish fetching: [`proxy.js`](proxy.js), a small self-hosted proxy (Deno Deploy) that paginates HoYo's gacha API.
 - Capturing Radiance model: [u/OneBST's ~4M-pull analysis](https://www.reddit.com/r/Genshin_Impact/comments/1hd1sqa/), refined by u/benjaminhsieh.
 - **Genshin Impact** © HoYoverse. Unofficial fan tool, not affiliated with or endorsed by HoYoverse.
@@ -107,7 +107,7 @@ Apri l'app, poi carica la cronologia in uno dei due modi.
 2. Apri **PowerShell** (cerca "PowerShell" nel menu Start).
 3. Esegui questo, poi copia l'output (il tuo link dei desideri):
    ```powershell
-   irm https://radiance.vanhexen.deno.net/wish | iex
+   irm https://vanhexen.github.io/radiance/wish.ps1 | iex
    ```
    Esegue il `wish.ps1` del progetto (servito dal proxy). Legge la cache locale del gioco, stampa il link e non carica nulla.
 4. Incolla il link nell'app e premi **Fetch**. Un piccolo proxy ([`proxy.js`](proxy.js)) legge la cronologia
@@ -151,7 +151,7 @@ I termini ufficiali EN/IT vengono dall'annuncio di HoYoverse (articolo 125274): 
 
 ### Crediti
 - [genshin-db](https://github.com/theBowja/genshin-db) di theBowja: nomi, rarità, ID dei personaggi.
-- Estrazione del link: script proprio ([`wish.ps1`](wish.ps1)), servito dal proxy su `/wish`; legge la cache locale del gioco e non carica nulla. (Tecnica di parsing della cache dalla community: MadeBaruna e jogerj.)
+- Estrazione del link: script proprio ([`wish.ps1`](wish.ps1)), servito come file statico da GitHub Pages; legge la cache locale del gioco e non carica nulla. (Tecnica di parsing della cache dalla community: MadeBaruna e jogerj.)
 - Recupero dei desideri: [`proxy.js`](proxy.js), un piccolo proxy self-hosted (Deno Deploy) che pagina l'API gacha di HoYo.
 - Modello Conquista dello splendore: [analisi su ~4M pull di u/OneBST](https://www.reddit.com/r/Genshin_Impact/comments/1hd1sqa/), affinata da u/benjaminhsieh.
 - **Genshin Impact** © HoYoverse. Strumento fan non ufficiale, non affiliato né approvato da HoYoverse.

@@ -16,19 +16,14 @@ const CORS = {
   "access-control-allow-headers": "content-type",
 };
 
-// Served at GET /wish so users can run a short `irm .../wish | iex`. This is our
-// own extractor (wish.ps1), no third-party gist. Reads the local game cache,
-// prints the wish link, uploads nothing.
-const WISH_SCRIPT = await Deno.readTextFile(new URL("./wish.ps1", import.meta.url));
-
+// The link extractor (wish.ps1) is served as a static file by GitHub Pages
+// (vanhexen.github.io/radiance/wish.ps1), so this proxy only does the wish fetch.
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...CORS, "content-type": "application/json" } });
 
 Deno.serve(async (req) => {
     if (req.method === "OPTIONS") return new Response(null, { headers: CORS });
-    if (req.method === "GET" && new URL(req.url).pathname === "/wish")
-      return new Response(WISH_SCRIPT, { headers: { ...CORS, "content-type": "text/plain; charset=utf-8" } });
     if (req.method !== "POST") return json({ error: "POST a wish url" }, 405);
 
     let url;
