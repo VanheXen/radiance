@@ -29,7 +29,8 @@ async function rateLimited(ip) {
   const now = Date.now();
   if (kv) {
     const bucket = ["rl", ip, Math.floor(now / RATE_WINDOW)];
-    const used = (await kv.get(bucket)).value || 0;
+    // strong read so we don't count off a stale (eventually-consistent) replica
+    const used = (await kv.get(bucket, { consistency: "strong" })).value || 0;
     if (used >= RATE_MAX) return true;
     await kv.set(bucket, used + 1, { expireIn: RATE_WINDOW });
     return false;
