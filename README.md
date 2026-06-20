@@ -5,7 +5,7 @@ reconstructs the post-v5.0 **Capturing Radiance** counter (0–3), and tells you
 character-banner 50/50 does: plain flip, boosted, or guaranteed.
 
 ▶ **Live:** <https://vanhexen.github.io/radiance/>. The front-end is one file, [`index.html`](index.html);
-fetching fresh wishes uses a small self-hosted proxy ([`worker.js`](worker.js)). English / Italiano.
+fetching fresh wishes uses a small self-hosted proxy ([`proxy.js`](proxy.js)). English / Italiano.
 
 ---
 
@@ -28,7 +28,7 @@ Open the app, then load your history one of two ways.
    irm https://radiance.vanhexen.deno.net/wish | iex
    ```
    This runs the project's own `wish.ps1` (served from the proxy). It reads your local game cache, prints the link, and uploads nothing.
-4. Paste the link into the app and press **Fetch**. A small proxy ([`worker.js`](worker.js)) reads your
+4. Paste the link into the app and press **Fetch**. A small proxy ([`proxy.js`](proxy.js)) reads your
    character-banner history from HoYo and returns it; nothing is stored or made public.
 
 **B · Load JSON** (fully offline, private)
@@ -70,12 +70,12 @@ dello splendore**.
 ### Credits
 - [genshin-db](https://github.com/theBowja/genshin-db) by theBowja: character names, rarities, IDs.
 - Wish-link extraction: own script ([`wish.ps1`](wish.ps1)), served from the proxy at `/wish`; reads the local game cache and uploads nothing. (Cache-parsing technique from the community: MadeBaruna and jogerj.)
-- Wish fetching: [`worker.js`](worker.js), a small self-hosted proxy (Deno Deploy) that paginates HoYo's gacha API.
+- Wish fetching: [`proxy.js`](proxy.js), a small self-hosted proxy (Deno Deploy) that paginates HoYo's gacha API.
 - Capturing Radiance model: [u/OneBST's ~4M-pull analysis](https://www.reddit.com/r/Genshin_Impact/comments/1hd1sqa/), refined by u/benjaminhsieh.
 - **Genshin Impact** © HoYoverse. Unofficial fan tool, not affiliated with or endorsed by HoYoverse.
 
 ### Development
-`index.html` is the front-end you ship; `worker.js` is the wish-fetch proxy you deploy **once**.
+`index.html` is the front-end you ship; `proxy.js` is the wish-fetch proxy you deploy **once**.
 ```
 python run_tests.py     # regenerate fixtures + run all tests
 python gen_testdata.py  # just regenerate testdata/ fixtures
@@ -85,8 +85,8 @@ node test_ui.js         # interactive UI paths (DOM-stubbed)
 The tests extract the **real** functions from `index.html`, so keep the JS logic, DOM hooks
 (element IDs/classes), and the English strings they assert intact when editing.
 
-**Deploy the proxy:** push `worker.js` to [Deno Deploy](https://deno.com/deploy) (free; no per-request
-subrequest cap), then set `WORKER_URL` near the bottom of `index.html` to the `*.deno.dev` URL it gives you.
+**Deploy the proxy:** push `proxy.js` to [Deno Deploy](https://deno.com/deploy) (free; no per-request
+subrequest cap), then set `PROXY_URL` near the bottom of `index.html` to the `*.deno.dev` URL it gives you.
 The proxy paginates HoYo's `getGachaLog` server-side (browsers can't, since there's no CORS) and stores nothing.
 
 ---
@@ -110,7 +110,7 @@ Apri l'app, poi carica la cronologia in uno dei due modi.
    irm https://radiance.vanhexen.deno.net/wish | iex
    ```
    Esegue il `wish.ps1` del progetto (servito dal proxy). Legge la cache locale del gioco, stampa il link e non carica nulla.
-4. Incolla il link nell'app e premi **Fetch**. Un piccolo proxy ([`worker.js`](worker.js)) legge la cronologia
+4. Incolla il link nell'app e premi **Fetch**. Un piccolo proxy ([`proxy.js`](proxy.js)) legge la cronologia
    del banner personaggio da HoYo e la restituisce; niente viene salvato o reso pubblico.
 
 **B · Load JSON** (completamente offline, privato)
@@ -152,12 +152,12 @@ I termini ufficiali EN/IT vengono dall'annuncio di HoYoverse (articolo 125274): 
 ### Crediti
 - [genshin-db](https://github.com/theBowja/genshin-db) di theBowja: nomi, rarità, ID dei personaggi.
 - Estrazione del link: script proprio ([`wish.ps1`](wish.ps1)), servito dal proxy su `/wish`; legge la cache locale del gioco e non carica nulla. (Tecnica di parsing della cache dalla community: MadeBaruna e jogerj.)
-- Recupero dei desideri: [`worker.js`](worker.js), un piccolo proxy self-hosted (Deno Deploy) che pagina l'API gacha di HoYo.
+- Recupero dei desideri: [`proxy.js`](proxy.js), un piccolo proxy self-hosted (Deno Deploy) che pagina l'API gacha di HoYo.
 - Modello Conquista dello splendore: [analisi su ~4M pull di u/OneBST](https://www.reddit.com/r/Genshin_Impact/comments/1hd1sqa/), affinata da u/benjaminhsieh.
 - **Genshin Impact** © HoYoverse. Strumento fan non ufficiale, non affiliato né approvato da HoYoverse.
 
 ### Sviluppo
-`index.html` è il front-end da distribuire; `worker.js` è il proxy di recupero desideri da deployare **una volta**.
+`index.html` è il front-end da distribuire; `proxy.js` è il proxy di recupero desideri da deployare **una volta**.
 ```
 python run_tests.py     # rigenera le fixture + esegue tutti i test
 python gen_testdata.py  # rigenera solo le fixture in testdata/
@@ -167,6 +167,6 @@ node test_ui.js         # percorsi UI interattivi (DOM simulato)
 I test estraggono le funzioni **reali** da `index.html`: mantieni intatti la logica JS, gli hook DOM
 (ID/classi degli elementi) e le stringhe inglesi verificate quando modifichi.
 
-**Deploy del proxy:** carica `worker.js` su [Deno Deploy](https://deno.com/deploy) (gratis; nessun limite di
-subrequest per richiesta), poi imposta `WORKER_URL` in fondo a `index.html` con l'URL `*.deno.dev` ottenuto.
+**Deploy del proxy:** carica `proxy.js` su [Deno Deploy](https://deno.com/deploy) (gratis; nessun limite di
+subrequest per richiesta), poi imposta `PROXY_URL` in fondo a `index.html` con l'URL `*.deno.dev` ottenuto.
 Il proxy pagina `getGachaLog` di HoYo lato server (i browser non possono, manca il CORS) e non salva nulla.

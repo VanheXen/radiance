@@ -4,7 +4,7 @@
 // character-banner rows. Stores nothing, logs nothing, exposes nothing public.
 //
 // Deploy on Deno Deploy (no per-request subrequest cap, free). Run locally with
-// `deno run --allow-net worker.js`. POST { "url": "<wish link>" } -> { character: [...] }.
+// `deno run --allow-net proxy.js`. POST { "url": "<wish link>" } -> { character: [...] }.
 
 const CHAR_BANNERS = ["301", "400"]; // both character event banners
 const PAGE_DELAY_MS = 300;           // dodge HoYo retcode -110 "visit too frequently"
