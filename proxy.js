@@ -34,6 +34,12 @@ Deno.serve(async (req) => {
     }
     if (!url.searchParams.get("authkey")) return json({ error: "no authkey in url" }, 400);
 
+    // SSRF guard: the fetch target comes from the user's url, so restrict it to HoYo's
+    // gacha hosts over https. Blocks using this proxy to probe arbitrary/internal hosts.
+    const host = url.hostname.toLowerCase();
+    if (url.protocol !== "https:" || !(host.endsWith(".hoyoverse.com") || host.endsWith(".mihoyo.com")))
+      return json({ error: "url must be a HoYoverse wish link" }, 400);
+
     // Reuse the link's own origin + auth params. Keep its getGachaLog path if it
     // already has one (base path differs across hosts); else default. Works for
     // global and CN servers since host + path come from the link.
