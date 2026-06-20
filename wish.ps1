@@ -1,4 +1,4 @@
-# Capturing Radiance — local wish-link extractor.
+# Capturing Radiance - local wish-link extractor.
 # Reads Genshin's local web cache, finds the most recent VALID wish-history URL,
 # prints it and copies it to the clipboard. Uploads nothing, reads nothing but the cache.
 # Run:  irm https://radiance.vanhexen.deno.net/wish | iex
@@ -12,7 +12,7 @@ $apiHost = "public-operation-hk4e-sg.hoyoverse.com"
 $logPath = "$env:USERPROFILE\AppData\LocalLow\miHoYo\Genshin Impact\output_log.txt"
 if ($reg -eq "china") {
   $apiHost = "public-operation-hk4e.mihoyo.com"
-  $logPath = "$env:USERPROFILE\AppData\LocalLow\miHoYo\$([char]0x539f)$([char]0x795e)\output_log.txt"   # 原神
+  $logPath = "$env:USERPROFILE\AppData\LocalLow\miHoYo\$([char]0x539f)$([char]0x795e)\output_log.txt"   # CN client folder name
 }
 
 if (-not (Test-Path $logPath)) {
@@ -37,7 +37,7 @@ if (-not (Test-Path $cacheFile)) {
   return
 }
 
-# The live file is locked — copy it out, then scan for wish URLs.
+# The live file is locked - copy it out, then scan for wish URLs.
 $tmp = Join-Path $env:TEMP "cr_data_2"
 Copy-Item $cacheFile $tmp -Force
 $content = Get-Content -Raw -Encoding UTF8 $tmp
@@ -74,4 +74,4 @@ if (-not $link) {
 
 Set-Clipboard -Value $link
 Write-Host $link
-Write-Host "Link copied to clipboard — paste it into the Capturing Radiance app." -ForegroundColor Green
+Write-Host "Link copied to clipboard - paste it into the Capturing Radiance app." -ForegroundColor Green
