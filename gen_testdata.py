@@ -3,7 +3,7 @@
 
 Outputs testdata/<scenario>.json (Load-JSON shape: rows with name/rarity/item_id)
 plus testdata/EXPECTED.md with the counter/certainty each file should produce.
-Dev tool — not part of the portable app.
+Dev tool, not part of the portable app.
 
 Scenario tokens (character-banner 5★ outcomes, in order):
   W = won 50/50 (featured char)
@@ -120,7 +120,7 @@ SCENARIOS = {
 STRIP = {"export_charmap_path"}   # serialize these without name/rarity (item_id-only shape)
 
 os.makedirs(OUT, exist_ok=True)
-lines=["# Test fixtures — expected radiance results\n",
+lines=["# Test fixtures: expected radiance results\n",
        "Load each via the app's **Load JSON** button.\n"]
 uid=810000001
 for name, toks in SCENARIOS.items():
@@ -133,7 +133,7 @@ for name, toks in SCENARIOS.items():
     earliest=min((e[0] for e in ev), default="-")
     partial = earliest>V50
     if not ev:                                        # no 5★ at all
-        verdict = "no character-banner 5★ — app shows 'nothing to compute'"
+        verdict = "no character-banner 5★; app shows 'nothing to compute'"
         cov = "n/a"
     elif not partial:                                 # app uses the known start (1) for full history
         verdict = f"counter **{radiance(ev,1)}**, certain (full history)"

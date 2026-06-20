@@ -1,4 +1,4 @@
-// Capturing Radiance — wish-history proxy.
+// Capturing Radiance wish-history proxy.
 // Browser POSTs the in-game wish URL; this proxy paginates
 // HoYo's getGachaLog server-side (no CORS in the browser) and returns normalized
 // character-banner rows. Stores nothing, logs nothing, exposes nothing public.
@@ -17,7 +17,7 @@ const CORS = {
 };
 
 // Served at GET /wish so users can run a short `irm .../wish | iex`. This is our
-// own extractor (wish.ps1) — no third-party gist. Reads the local game cache,
+// own extractor (wish.ps1), no third-party gist. Reads the local game cache,
 // prints the wish link, uploads nothing.
 const WISH_SCRIPT = await Deno.readTextFile(new URL("./wish.ps1", import.meta.url));
 

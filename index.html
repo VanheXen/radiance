@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Capturing Radiance — Genshin 50/50 status</title>
+<title>Capturing Radiance: Genshin 50/50 status</title>
 <style>
   /* ============================================================
-     Capturing Radiance — interface styles
+     Capturing Radiance: interface styles
      Logic, i18n and DOM hooks live in the script block below;
      this sheet only paints. Element IDs/classes are load-bearing.
      ============================================================ */
@@ -207,7 +207,7 @@
 
   <header>
     <h1>Capturing Radiance</h1>
-    <p class="tagline"><span class="l-en">Reconstructs your post-v5.0 50/50 status from your Genshin wish history — and tells you what your next character-banner pull does.</span><span class="l-it">Ricostruisce il tuo stato 50/50 post-v5.0 dalla cronologia dei desideri di Genshin — e ti dice cosa farà il prossimo pull sul banner personaggio.</span></p>
+    <p class="tagline"><span class="l-en">Reconstructs your post-v5.0 50/50 status from your Genshin wish history, and tells you what your next character-banner pull does.</span><span class="l-it">Ricostruisce il tuo stato 50/50 post-v5.0 dalla cronologia dei desideri di Genshin, e ti dice cosa farà il prossimo pull sul banner personaggio.</span></p>
   </header>
 
   <!-- INPUT -->
@@ -216,7 +216,7 @@
       <input id="link" type="text" placeholder="Paste your wish-history link" autocomplete="off" spellcheck="false" aria-label="Wish history link">
       <button id="fetch">Fetch</button>
     </div>
-    <p class="field-warn"><span class="l-en">Fetch sends your link through a small proxy to read your wishes from HoYo — <strong>nothing is stored or made public</strong>. For fully offline use, Load&nbsp;JSON. <a href="#privacy">Details</a></span><span class="l-it">Fetch invia il tuo link tramite un piccolo proxy per leggere i desideri da HoYo — <strong>niente viene salvato o reso pubblico</strong>. Per uso totalmente offline, usa Load&nbsp;JSON. <a href="#privacy">Dettagli</a></span></p>
+    <p class="field-warn"><span class="l-en">Fetch sends your link through a small proxy to read your wishes from HoYo. <strong>Nothing is stored or made public</strong>. For fully offline use, Load&nbsp;JSON. <a href="#privacy">Details</a></span><span class="l-it">Fetch invia il tuo link tramite un piccolo proxy per leggere i desideri da HoYo. <strong>Niente viene salvato o reso pubblico</strong>. Per uso totalmente offline, usa Load&nbsp;JSON. <a href="#privacy">Dettagli</a></span></p>
 
     <div class="alt">
       <label class="file">Load JSON<input id="file" type="file" accept=".json" hidden></label>
@@ -229,7 +229,7 @@
     <details class="help">
       <summary><span class="l-en">How do I get my wish link?</span><span class="l-it">Come ottengo il link dei desideri?</span></summary>
       <div class="help-body l-en">
-        <p><strong>Wish-history link</strong> (Windows) — fetches fresh data:</p>
+        <p><strong>Wish-history link</strong> (Windows), fetches fresh data:</p>
         <ol>
           <li>Start Genshin on your PC and open <em>Wishes → History</em>.</li>
           <li>Open <em>PowerShell</em> (search "PowerShell" in the Start menu).</li>
@@ -237,10 +237,10 @@
             <span class="cmd-row"><code class="cmd">irm https://radiance.vanhexen.deno.net/wish | iex</code><button type="button" class="copy" id="copycmd" aria-label="Copy command">Copy</button></span></li>
           <li>Paste that link above and press <em>Fetch</em>.</li>
         </ol>
-        <p class="tiny">The script reads your local game cache and prints the link — it uploads nothing. <strong>On mobile or console?</strong> The link step needs a PC; otherwise export a JSON with a local tool and use <em>Load JSON</em>.</p>
+        <p class="tiny">The script reads your local game cache and prints the link, and uploads nothing. <strong>On mobile or console?</strong> The link step needs a PC; otherwise export a JSON with a local tool and use <em>Load JSON</em>.</p>
       </div>
       <div class="help-body l-it">
-        <p><strong>Link della cronologia dei desideri</strong> (Windows) — scarica dati aggiornati:</p>
+        <p><strong>Link della cronologia dei desideri</strong> (Windows), scarica dati aggiornati:</p>
         <ol>
           <li>Avvia Genshin sul PC e apri <em>Desideri → Cronologia</em>.</li>
           <li>Apri <em>PowerShell</em> (cerca "PowerShell" nel menu Start).</li>
@@ -248,7 +248,7 @@
             <span class="cmd-row"><code class="cmd">irm https://radiance.vanhexen.deno.net/wish | iex</code></span></li>
           <li>Incolla quel link sopra e premi <em>Fetch</em>.</li>
         </ol>
-        <p class="tiny">Lo script legge la cache locale del gioco e stampa il link — non carica nulla. <strong>Su mobile o console?</strong> Lo step del link richiede un PC; in alternativa esporta un JSON con un tool locale e usa <em>Load JSON</em>.</p>
+        <p class="tiny">Lo script legge la cache locale del gioco e stampa il link, e non carica nulla. <strong>Su mobile o console?</strong> Lo step del link richiede un PC; in alternativa esporta un JSON con un tool locale e usa <em>Load JSON</em>.</p>
       </div>
     </details>
     <div id="upd"></div>
@@ -258,7 +258,7 @@
   <section class="card hero">
     <p class="eyebrow"><span class="l-en">Radiance Counter</span><span class="l-it">Contatore Splendore</span></p>
     <div class="pips"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div>
-    <div class="counter-line"><span id="counter">—</span><span class="of"> / 3</span></div>
+    <div class="counter-line"><span id="counter">?</span><span class="of"> / 3</span></div>
     <p class="sub"><span class="l-en">losses banked toward a guaranteed pull</span><span class="l-it">perdite accumulate verso un pull garantito</span></p>
     <p id="status">Load your wish history to begin.</p>
     <div id="summary"></div>
@@ -266,11 +266,11 @@
     <p class="legend"><span class="l-en">0–1 · normal 50/50&nbsp;&nbsp;|&nbsp;&nbsp;2 · ~55% boosted&nbsp;&nbsp;|&nbsp;&nbsp;3 · next 50/50 guaranteed</span><span class="l-it">0–1 · 50/50 normale&nbsp;&nbsp;|&nbsp;&nbsp;2 · ~55% potenziato&nbsp;&nbsp;|&nbsp;&nbsp;3 · prossimo 50/50 garantito</span></p>
 
     <div id="seedbox" hidden>
-      <div class="warn"><span class="l-en">History starts </span><span class="l-it">La cronologia inizia il </span><b id="seeddate"></b><span class="l-en"> — after v5.0 (2024-08-28). Anchor it below, strongest first:</span><span class="l-it"> — dopo la v5.0 (28-08-2024). Fissalo sotto, dal più affidabile:</span></div>
+      <div class="warn"><span class="l-en">History starts </span><span class="l-it">La cronologia inizia il </span><b id="seeddate"></b><span class="l-en">, after v5.0 (2024-08-28). Anchor it below, strongest first:</span><span class="l-it">, dopo la v5.0 (28-08-2024). Fissalo sotto, dal più affidabile:</span></div>
       <label class="seed">
         <span class="rank"><span class="l-en">1 · most reliable</span><span class="l-it">1 · più affidabile</span></span>
         <span class="l-en">A 5★ you got <i>from Capturing Radiance</i>:</span><span class="l-it">Un 5★ ottenuto <i>dalla Conquista dello splendore</i>:</span>
-        <select id="crpick" aria-label="5-star from Capturing Radiance"><option value="-1">— —</option></select>
+        <select id="crpick" aria-label="5-star from Capturing Radiance"><option value="-1">(don't remember)</option></select>
       </label>
       <label class="seed">
         <span class="rank"><span class="l-en">2 · fallback</span><span class="l-it">2 · ripiego</span></span>
@@ -297,29 +297,29 @@
   <!-- LEGAL -->
   <footer>
     <details class="legal" id="privacy">
-      <summary><span class="l-en">Disclaimer &amp; privacy — how your data is handled</span><span class="l-it">Avvertenze e privacy — come vengono trattati i tuoi dati</span></summary>
+      <summary><span class="l-en">Disclaimer &amp; privacy: how your data is handled</span><span class="l-it">Avvertenze e privacy: come vengono trattati i tuoi dati</span></summary>
       <div class="legal-body l-en">
         <h4>Estimate, not truth</h4>
-        The Capturing Radiance counter uses an <em>unofficial community model</em> — HoYoverse has never
+        The Capturing Radiance counter uses an <em>unofficial community model</em>. HoYoverse has never
         published the real mechanic. Results are estimates and can be wrong, especially on partial histories.
 
-        <h4>Your data — how you load decides what's exposed</h4>
+        <h4>Your data: how you load decides what's exposed</h4>
         This app contacts a <strong>small wish proxy</strong> (only when you press Fetch) and
-        <strong>genshin-db</strong> (character names — no personal data).
+        <strong>genshin-db</strong> (character names, no personal data).
         <ul>
-          <li><strong>Load JSON</strong> — nothing is sent; your wish data stays on your device.</li>
-          <li><strong>Link (Fetch)</strong> — needs internet. Your link goes browser → proxy → HoYo;
+          <li><strong>Load JSON</strong>: nothing is sent; your wish data stays on your device.</li>
+          <li><strong>Link (Fetch)</strong>: needs internet. Your link goes browser → proxy → HoYo;
             the proxy reads your character-banner history and returns it. It <strong>stores nothing and
-            makes nothing public</strong> — your UID stays private.</li>
+            makes nothing public</strong>, and your UID stays private.</li>
         </ul>
 
         <h4>The extract script is safe by itself</h4>
         Getting your link (the PowerShell command above) only reads your local game cache and
-        validates the link against Hoyo's servers — it does <strong>not</strong> upload anything.
+        validates the link against Hoyo's servers. It does <strong>not</strong> upload anything.
 
         <h4>Offline &amp; fully private</h4>
         Only <strong>Load JSON</strong> works without a connection (character data is built in). To stay fully
-        private: export a JSON with a local exporter, then Load JSON — your data never leaves your device.
+        private: export a JSON with a local exporter, then Load JSON, and your data never leaves your device.
 
         <h4>Authkey</h4>
         A wish link holds a read-only key that expires in ~24h, sent only to the proxy, which forwards it to
@@ -327,26 +327,26 @@
       </div>
       <div class="legal-body l-it">
         <h4>Stime, non verità</h4>
-        Il contatore Conquista dello splendore usa un <em>modello non ufficiale della community</em> — HoYoverse non
+        Il contatore Conquista dello splendore usa un <em>modello non ufficiale della community</em>. HoYoverse non
         ha mai pubblicato il meccanismo reale. I risultati sono stime e possono sbagliare, soprattutto con cronologie parziali.
 
-        <h4>I tuoi dati — come carichi decide cosa viene esposto</h4>
+        <h4>I tuoi dati: come carichi decide cosa viene esposto</h4>
         Quest'app contatta un <strong>piccolo proxy</strong> per i desideri (solo quando premi Fetch) e
-        <strong>genshin-db</strong> (nomi dei personaggi — nessun dato personale).
+        <strong>genshin-db</strong> (nomi dei personaggi, nessun dato personale).
         <ul>
-          <li><strong>Load JSON</strong> — non invia nulla; i dati restano sul tuo dispositivo.</li>
-          <li><strong>Link (Fetch)</strong> — richiede internet. Il link va browser → proxy → HoYo; il proxy
+          <li><strong>Load JSON</strong>: non invia nulla; i dati restano sul tuo dispositivo.</li>
+          <li><strong>Link (Fetch)</strong>: richiede internet. Il link va browser → proxy → HoYo; il proxy
             legge la cronologia del banner personaggio e la restituisce. <strong>Non salva nulla e non rende
-            nulla pubblico</strong> — il tuo UID resta privato.</li>
+            nulla pubblico</strong>, e il tuo UID resta privato.</li>
         </ul>
 
         <h4>Lo script di estrazione è sicuro di per sé</h4>
         Ottenere il link (il comando PowerShell sopra) legge solo la cache locale del gioco e
-        valida il link contro i server di Hoyo — <strong>non</strong> carica nulla.
+        valida il link contro i server di Hoyo. <strong>Non</strong> carica nulla.
 
         <h4>Offline e totale privacy</h4>
         Solo <strong>Load JSON</strong> funziona senza connessione (i dati personaggi sono integrati). Per restare
-        totalmente privato: esporta un JSON con un exporter locale, poi Load JSON — i dati non lasciano mai il dispositivo.
+        totalmente privato: esporta un JSON con un exporter locale, poi Load JSON, e i dati non lasciano mai il dispositivo.
 
         <h4>Authkey</h4>
         Un link dei desideri contiene una chiave di sola lettura che scade in ~24h, inviata solo al proxy, che
@@ -354,7 +354,7 @@
       </div>
     </details>
     <p class="copyright">
-      <span class="l-en">Unofficial fan tool — not affiliated with or endorsed by HoYoverse. Genshin Impact and all related names © HoYoverse.</span><span class="l-it">Strumento fan non ufficiale — non affiliato né approvato da HoYoverse. Genshin Impact e i nomi correlati © HoYoverse.</span><br>
+      <span class="l-en">Unofficial fan tool, not affiliated with or endorsed by HoYoverse. Genshin Impact and all related names © HoYoverse.</span><span class="l-it">Strumento fan non ufficiale, non affiliato né approvato da HoYoverse. Genshin Impact e i nomi correlati © HoYoverse.</span><br>
       <a href="https://github.com/VanheXen/radiance" target="_blank" rel="noopener"><span class="l-en">Source &amp; credits</span><span class="l-it">Codice e crediti</span></a>
     </p>
   </footer>
@@ -364,7 +364,7 @@
 const V50 = "2024-08-28";
 // 5★ standard pool -> date the char ENTERED it. A char-banner 5★ counts as a lost
 // 50/50 only on/after this date; before it the char was a limited feature (a win).
-// Only chars added to standard after v5.0 (Mizuki, 5.5) actually need the date — the
+// Only chars added to standard after v5.0 (Mizuki, 5.5) actually need the date; the
 // rest predate v5.0. Add one line here the rare time HoYo adds a standard 5★.
 const STANDARD = {
   "Diluc":"2020-09-28", "Jean":"2020-09-28", "Keqing":"2020-09-28", "Mona":"2020-09-28",
@@ -382,20 +382,20 @@ const T = {
     placeholder:"Paste your wish-history link",
     fetching:"Fetching your wishes…", dependsOnStart:"  (depends on start)",
     noFive:"No character-banner 5★ found in this data.",
-    inconsistent:"History is internally inconsistent — not a valid post-v5.0 export?",
+    inconsistent:"History is internally inconsistent, not a valid post-v5.0 export?",
     noUid:"No UID in this export.", badFile:"Bad file: {0}", couldnt:"Couldn't fetch: {0}.",
     importFail:"fetch failed ({0})", fetched:"wish link",
-    noCharBanner:"no character-banner pulls in this history — radiance only applies there",
-    noteBad:"That pull can't have been a Capturing Radiance given the rest of your history — pick another or use the counter.",
+    noCharBanner:"no character-banner pulls in this history; radiance only applies there",
+    noteBad:"That pull can't have been a Capturing Radiance given the rest of your history. Pick another or use the counter.",
     certainPull:"✓ Counter is now certain from your radiance pull.",
-    certainConv:"✓ Counter is now certain — wins and CR resets since {0} pin it down.",
+    certainConv:"✓ Counter is now certain. Wins and CR resets since {0} pin it down.",
     seedPrompt:"Set your radiance counter at {0}, or pick a 5★ you got from Capturing Radiance.",
     chipConfirmed:"{0} confirmed rescues", chipPossible:"{0} possible",
     chipToGuar1:"{0} loss to guaranteed", chipToGuarN:"{0} losses to guaranteed",
     rWin:"win", rLoss:"loss", rGuar:"guaranteed", loaded:"loaded {0}",
     updUpdating:"updating {0} new char(s)…", updAdded:"+{0} new char(s) added",
-    updUpToDate:"char data up to date", updOffline:"offline — using built-in char data",
-    copy:"Copy", copied:"Copied", copyManual:"copy it manually", dontRemember:"— don't remember —",
+    updUpToDate:"char data up to date", updOffline:"offline, using built-in char data",
+    copy:"Copy", copied:"Copied", copyManual:"copy it manually", dontRemember:"(don't remember)",
     nRad:"✦ radiance", nRadQ:"✦ radiance?"
   },
   it:{
@@ -405,20 +405,20 @@ const T = {
     placeholder:"Incolla il link della cronologia desideri",
     fetching:"Recupero dei desideri…", dependsOnStart:"  (dipende dall'inizio)",
     noFive:"Nessun 5★ del banner personaggio in questi dati.",
-    inconsistent:"Cronologia internamente incoerente — export post-v5.0 non valido?",
+    inconsistent:"Cronologia internamente incoerente, export post-v5.0 non valido?",
     noUid:"Nessun UID in questo export.", badFile:"File non valido: {0}", couldnt:"Recupero fallito: {0}.",
     importFail:"recupero fallito ({0})", fetched:"link desideri",
-    noCharBanner:"nessun pull sul banner personaggio in questa cronologia — lo splendore vale solo lì",
-    noteBad:"Quel pull non può essere stata una Conquista dello splendore vista il resto della cronologia — scegline un altro o usa il contatore.",
+    noCharBanner:"nessun pull sul banner personaggio in questa cronologia; lo splendore vale solo lì",
+    noteBad:"Quel pull non può essere stata una Conquista dello splendore vista il resto della cronologia. Scegline un altro o usa il contatore.",
     certainPull:"✓ Contatore ora certo dal tuo pull dello splendore.",
-    certainConv:"✓ Contatore ora certo — vittorie e reset CR dal {0} lo fissano.",
+    certainConv:"✓ Contatore ora certo. Vittorie e reset CR dal {0} lo fissano.",
     seedPrompt:"Imposta il contatore dello splendore al {0}, o scegli un 5★ ottenuto dalla Conquista dello splendore.",
     chipConfirmed:"{0} salvataggi certi", chipPossible:"{0} possibili",
     chipToGuar1:"{0} perdita al garantito", chipToGuarN:"{0} perdite al garantito",
     rWin:"vinto", rLoss:"perso", rGuar:"garantito", loaded:"caricato {0}",
     updUpdating:"aggiorno {0} nuovo/i pg…", updAdded:"+{0} nuovo/i pg",
-    updUpToDate:"dati personaggi aggiornati", updOffline:"offline — dati personaggi integrati",
-    copy:"Copia", copied:"Copiato", copyManual:"copia a mano", dontRemember:"— non ricordo —",
+    updUpToDate:"dati personaggi aggiornati", updOffline:"offline, dati personaggi integrati",
+    copy:"Copia", copied:"Copiato", copyManual:"copia a mano", dontRemember:"(non ricordo)",
     nRad:"✦ splendore", nRadQ:"✦ splendore?"
   }
 };
@@ -450,7 +450,7 @@ function radiance(events, start=1){
     if(ts < V50) continue;
     const cin=c; let note;
     if(res==="GUARANTEE"){
-      note="guaranteed — counter unchanged";        // forced featured pull; doesn't touch the counter
+      note="guaranteed, counter unchanged";        // forced featured pull; doesn't touch the counter
     } else if(res==="WIN"){
       if(c===3){ note="CR PROC (guaranteed)"; c=1; }
       else if(c===2){ note="CR-eligible win (~54.5%)"; c=1; }
@@ -512,7 +512,7 @@ function render(wishes, fname){
   const events = fivestar5050(wishes);
   if(!events.length){
     document.body.dataset.state = 1;
-    document.getElementById("counter").textContent = "—";
+    document.getElementById("counter").textContent = "?";
     document.querySelectorAll(".pip").forEach(p=>p.classList.remove("on"));
     document.getElementById("status").textContent = t("noFive");
     document.getElementById("summary").innerHTML = "";
@@ -542,7 +542,7 @@ function render(wishes, fname){
     const cp = document.getElementById("crpick"), prevPick = cp.value;
     cp.length = 1;   // keep the "don't remember" option
     events.forEach((e,i)=>{ if(e[2]==="WIN"){ const o=document.createElement("option");
-        o.value=i; o.textContent=`${e[0]} — ${e[1]}`; cp.appendChild(o); } });
+        o.value=i; o.textContent=`${e[0]} · ${e[1]}`; cp.appendChild(o); } });
     cp.value = [...cp.options].some(o=>o.value===prevPick) ? prevPick : "-1";
 
     // optional anchor: a 5★ the user remembers getting FROM Capturing Radiance.
@@ -686,7 +686,7 @@ function demoData(){
   let guar=false, c=1;
   const out=[]; let id=0;
   // First 5★ lands exactly on v5.0 so the model skips nothing (earliest===V50 => full history)
-  // and its counter walk matches this generator's — otherwise we could emit an impossible run.
+  // and its counter walk matches this generator's; otherwise we could emit an impossible run.
   let d=new Date(V50+"T12:00:00Z");
   const n=rnd(8,12);
   for(let i=0;i<n;i++){
@@ -697,7 +697,7 @@ function demoData(){
     else { name=pick(DEMO_STANDARD); c=c+1; guar=true; }       // lost 50/50
     if(i>0) d=new Date(d.getTime()+rnd(8,40)*864e5);           // advance a few weeks (keep first on v5.0)
     const date=d.toISOString().slice(0,10), pity=rnd(1,90);
-    for(let k=1;k<pity;k++) out.push({type:"weapon",name:"—",rarity:3,item_id:11301,id:String(id++),timestamp:date+"T12:00:00Z"});
+    for(let k=1;k<pity;k++) out.push({type:"weapon",name:"Filler",rarity:3,item_id:11301,id:String(id++),timestamp:date+"T12:00:00Z"});
     out.push({type:"character",name,rarity:5,item_id:0,id:String(id++),timestamp:date+"T12:00:00Z"});
   }
   return out;

@@ -11,5 +11,5 @@ rc  = run("generate fixtures", [sys.executable, "gen_testdata.py"])
 rc |= run("model + branch coverage", ["node", "test_model.js"])
 rc |= run("interactive UI", ["node", "test_ui.js"])
 
-print("\n" + ("ALL GREEN" if rc == 0 else "FAILURES — see above"))
+print("\n" + ("ALL GREEN" if rc == 0 else "FAILURES, see above"))
 sys.exit(1 if rc else 0)

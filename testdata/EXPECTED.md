@@ -1,4 +1,4 @@
-# Test fixtures — expected radiance results
+# Test fixtures: expected radiance results
 
 Load each via the app's **Load JSON** button.
 
@@ -37,7 +37,7 @@ Load each via the app's **Load JSON** button.
 
 ## no_fives.json  (uid 810000009)
 - coverage: n/a
-- **expected: no character-banner 5★ — app shows 'nothing to compute'**
+- **expected: no character-banner 5★; app shows 'nothing to compute'**
 
 ## cr_eligible_c2.json  (uid 810000010)
 - coverage: full (reaches pre-v5.0)

@@ -1,7 +1,7 @@
-# personal wish exports — NEVER commit (contains your UID + full wish history)
+# personal wish exports: NEVER commit (contains your UID + full wish history)
 stardb-export*.json
 
-# local-only project notes (kept out of history — may reference UID/credentials)
+# local-only project notes (kept out of history; may reference UID/credentials)
 HANDOFF.md
 
 # python / test scratch
