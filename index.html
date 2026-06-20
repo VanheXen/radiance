@@ -234,7 +234,7 @@
           <li>Start Genshin on your PC and open <em>Wishes → History</em>.</li>
           <li>Open <em>PowerShell</em> (search "PowerShell" in the Start menu).</li>
           <li>Run this, then copy its output (your wish link):
-            <span class="cmd-row"><code class="cmd">iex "&amp;{$(irm https://gist.githubusercontent.com/MadeBaruna/1d75c1d37d19eca71591ec8a31178235/raw/getlink_global.ps1)} global"</code><button type="button" class="copy" id="copycmd" aria-label="Copy command">Copy</button></span></li>
+            <span class="cmd-row"><code class="cmd">irm https://radiance.vanhexen.deno.net/wish | iex</code><button type="button" class="copy" id="copycmd" aria-label="Copy command">Copy</button></span></li>
           <li>Paste that link above and press <em>Fetch</em>.</li>
         </ol>
         <p class="tiny">The script reads your local game cache and prints the link — it uploads nothing. <strong>On mobile or console?</strong> The link step needs a PC; otherwise export a JSON with a local tool and use <em>Load JSON</em>.</p>
@@ -245,7 +245,7 @@
           <li>Avvia Genshin sul PC e apri <em>Desideri → Cronologia</em>.</li>
           <li>Apri <em>PowerShell</em> (cerca "PowerShell" nel menu Start).</li>
           <li>Esegui questo, poi copia l'output (il tuo link dei desideri):
-            <span class="cmd-row"><code class="cmd">iex "&amp;{$(irm https://gist.githubusercontent.com/MadeBaruna/1d75c1d37d19eca71591ec8a31178235/raw/getlink_global.ps1)} global"</code></span></li>
+            <span class="cmd-row"><code class="cmd">irm https://radiance.vanhexen.deno.net/wish | iex</code></span></li>
           <li>Incolla quel link sopra e premi <em>Fetch</em>.</li>
         </ol>
         <p class="tiny">Lo script legge la cache locale del gioco e stampa il link — non carica nulla. <strong>Su mobile o console?</strong> Lo step del link richiede un PC; in alternativa esporta un JSON con un tool locale e usa <em>Load JSON</em>.</p>
@@ -701,7 +701,7 @@ document.getElementById("demo").addEventListener("click", ()=>{
 
 // ---- copy the PowerShell command ----
 document.getElementById("copycmd").addEventListener("click", e=>{
-  const cmd="iex \"&{$(irm https://gist.githubusercontent.com/MadeBaruna/1d75c1d37d19eca71591ec8a31178235/raw/getlink_global.ps1)} global\"";
+  const cmd="irm https://radiance.vanhexen.deno.net/wish | iex";
   (navigator.clipboard ? navigator.clipboard.writeText(cmd) : Promise.reject())
     .then(()=>{ e.target.textContent=t("copied"); setTimeout(()=>e.target.textContent=t("copy"),1500); })
     .catch(()=>{ e.target.textContent=t("copyManual"); setTimeout(()=>e.target.textContent=t("copy"),1800); });

