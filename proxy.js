@@ -16,6 +16,10 @@ const CORS = {
   "access-control-allow-headers": "content-type",
 };
 
+const ALLOWED_ORIGIN = "https://vanhexen.github.io"; // link fetch only from the hosted site
+const RATE_MAX = 60;                                 // requests per IP per minute
+const kv = await Deno.openKv();
+
 // The link extractor (wish.ps1) is served as a static file by GitHub Pages
 // (vanhexen.github.io/radiance/wish.ps1), so this proxy only does the wish fetch.
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -25,6 +29,17 @@ const json = (body, status = 200) =>
 Deno.serve(async (req) => {
     if (req.method === "OPTIONS") return new Response(null, { headers: CORS });
     if (req.method !== "POST") return json({ error: "POST a wish url" }, 405);
+
+    // Only serve calls from the hosted site (blocks other sites and casual scripting).
+    if (req.headers.get("origin") !== ALLOWED_ORIGIN) return json({ error: "forbidden origin" }, 403);
+
+    // Per-IP rate limit: a per-minute bucket in Deno KV (auto-expires). One Fetch = one
+    // request regardless of history size (pagination is server-side), so this never hits whales.
+    const ip = (req.headers.get("x-forwarded-for") || "").split(",")[0].trim() || "unknown";
+    const bucket = ["rl", ip, Math.floor(Date.now() / 60000)];
+    const used = (await kv.get(bucket)).value || 0;
+    if (used >= RATE_MAX) return json({ error: "rate limited, try again shortly" }, 429);
+    await kv.set(bucket, used + 1, { expireIn: 60000 });
 
     let url;
     try {
