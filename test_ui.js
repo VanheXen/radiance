@@ -35,6 +35,7 @@ global.document={
 };
 global.localStorage={getItem:()=>null,setItem(){}};
 global.fetch=()=>Promise.reject(new Error("no default net"));
+global.location={origin:"https://vanhexen.github.io"};
 
 // ---- load real script, export the functions we need ----
 let src=fs.readFileSync("index.html","utf8").match(/<script>([\s\S]*)<\/script>/)[1];

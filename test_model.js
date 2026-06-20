@@ -8,6 +8,7 @@ const noop=()=>{}; const el=new Proxy({},{get:()=>(()=>el),set:()=>true});
 el.classList={toggle:noop,remove:noop}; el.querySelectorAll=()=>[]; el.options=[]; el.dataset={};
 global.document={getElementById:()=>el,querySelector:()=>el,querySelectorAll:()=>[],body:{dataset:{}},createElement:()=>el};
 global.localStorage={getItem:()=>null,setItem:noop}; global.fetch=()=>Promise.reject(new Error("x"));
+global.location={origin:"https://vanhexen.github.io"};
 const mod={}; src+="\n;mod.f5=fivestar5050;mod.rad=radiance;mod.feas=feasibleStarts;"; new Function("mod",src)(mod);
 const {f5,rad,feas}=mod; const V50="2024-08-28";
 

@@ -380,6 +380,7 @@ const T = {
             "Small (~54.5%) chance to trigger CR.","GUARANTEED Capturing Radiance win!"],
     statusInit:"Load your wish history to begin.",
     placeholder:"Paste your wish-history link",
+    localFetch:"Link fetch needs the hosted site. Open vanhexen.github.io/radiance, or use Load JSON here.",
     fetching:"Fetching your wishes…", dependsOnStart:"  (depends on start)",
     noFive:"No character-banner 5★ found in this data.",
     inconsistent:"History is internally inconsistent, not a valid post-v5.0 export?",
@@ -403,6 +404,7 @@ const T = {
             "Piccola probabilità (~54.5%) di attivare CR.","Vincita Conquista dello splendore GARANTITA!"],
     statusInit:"Carica la cronologia dei desideri per iniziare.",
     placeholder:"Incolla il link della cronologia desideri",
+    localFetch:"Il fetch del link richiede il sito ospitato. Apri vanhexen.github.io/radiance, o usa Load JSON qui.",
     fetching:"Recupero dei desideri…", dependsOnStart:"  (dipende dall'inizio)",
     noFive:"Nessun 5★ del banner personaggio in questi dati.",
     inconsistent:"Cronologia internamente incoerente, export post-v5.0 non valido?",
@@ -637,6 +639,10 @@ document.getElementById("crpick").addEventListener("change", ()=>{ if(LAST) rend
 // Deploy proxy.js (Deno Deploy) and put its URL here. The proxy paginates HoYo's
 // gacha API server-side (no browser CORS) and stores nothing.
 const PROXY_URL = "https://radiance.vanhexen.deno.net";   // proxy.js on Deno Deploy
+// Link fetch only works from the hosted site: the proxy checks the request Origin,
+// so a local file:// (or any other origin) would be rejected. Detect and disable it.
+const SITE_ORIGIN = "https://vanhexen.github.io";
+const HOSTED = location.origin === SITE_ORIGIN;
 async function fetchWishes(input){
   const v = input.trim();
   if(!v) return;
@@ -667,7 +673,7 @@ function applyLang(lang){
   localStorage.setItem("lang", LANG);
   document.body.dataset.lang = LANG;
   document.querySelectorAll(".langtoggle button").forEach(b=> b.classList.toggle("active", b.dataset.setlang===LANG));
-  document.getElementById("link").placeholder = t("placeholder");
+  document.getElementById("link").placeholder = HOSTED ? t("placeholder") : t("localFetch");
   const cc = document.getElementById("copycmd"); if(cc) cc.textContent = t("copy");
   const cp = document.getElementById("crpick"); if(cp && cp.options[0]) cp.options[0].textContent = t("dontRemember");
   if(LAST) render(LAST.wishes, LAST.fname);
@@ -675,6 +681,9 @@ function applyLang(lang){
 }
 document.querySelectorAll(".langtoggle button").forEach(b=> b.addEventListener("click", ()=> applyLang(b.dataset.setlang)));
 applyLang(LANG);
+
+// Link fetch is unavailable off the hosted site (proxy rejects other origins): grey it out.
+if(!HOSTED){ document.getElementById("fetch").disabled = true; document.getElementById("link").disabled = true; }
 
 // ---- sample data: fresh random (but model-valid) history on every press ----
 const DEMO_FEATURED=["Furina","Nahida","Arlecchino","Clorinde","Mavuika","Neuvillette",
