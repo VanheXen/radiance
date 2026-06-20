@@ -258,7 +258,7 @@
   <section class="card hero">
     <p class="eyebrow"><span class="l-en">Radiance Counter</span><span class="l-it">Contatore Splendore</span></p>
     <div class="pips"><span class="pip"></span><span class="pip"></span><span class="pip"></span></div>
-    <div class="counter-line"><span id="counter">—</span><span class="of"> / 3</span></div>
+    <div class="counter-line"><span id="counter">?</span><span class="of"> / 3</span></div>
     <p class="sub"><span class="l-en">losses banked toward a guaranteed pull</span><span class="l-it">perdite accumulate verso un pull garantito</span></p>
     <p id="status">Load your wish history to begin.</p>
     <div id="summary"></div>
@@ -270,7 +270,7 @@
       <label class="seed">
         <span class="rank"><span class="l-en">1 · most reliable</span><span class="l-it">1 · più affidabile</span></span>
         <span class="l-en">A 5★ you got <i>from Capturing Radiance</i>:</span><span class="l-it">Un 5★ ottenuto <i>dalla Conquista dello splendore</i>:</span>
-        <select id="crpick" aria-label="5-star from Capturing Radiance"><option value="-1">— —</option></select>
+        <select id="crpick" aria-label="5-star from Capturing Radiance"><option value="-1">(don't remember)</option></select>
       </label>
       <label class="seed">
         <span class="rank"><span class="l-en">2 · fallback</span><span class="l-it">2 · ripiego</span></span>
@@ -512,7 +512,7 @@ function render(wishes, fname){
   const events = fivestar5050(wishes);
   if(!events.length){
     document.body.dataset.state = 1;
-    document.getElementById("counter").textContent = "—";
+    document.getElementById("counter").textContent = "?";
     document.querySelectorAll(".pip").forEach(p=>p.classList.remove("on"));
     document.getElementById("status").textContent = t("noFive");
     document.getElementById("summary").innerHTML = "";
@@ -697,7 +697,7 @@ function demoData(){
     else { name=pick(DEMO_STANDARD); c=c+1; guar=true; }       // lost 50/50
     if(i>0) d=new Date(d.getTime()+rnd(8,40)*864e5);           // advance a few weeks (keep first on v5.0)
     const date=d.toISOString().slice(0,10), pity=rnd(1,90);
-    for(let k=1;k<pity;k++) out.push({type:"weapon",name:"—",rarity:3,item_id:11301,id:String(id++),timestamp:date+"T12:00:00Z"});
+    for(let k=1;k<pity;k++) out.push({type:"weapon",name:"Filler",rarity:3,item_id:11301,id:String(id++),timestamp:date+"T12:00:00Z"});
     out.push({type:"character",name,rarity:5,item_id:0,id:String(id++),timestamp:date+"T12:00:00Z"});
   }
   return out;
