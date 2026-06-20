@@ -107,18 +107,18 @@ const LINK="https://hk4e-api-os.hoyoverse.com/event/gacha_info/api/getGachaLog?a
 
 (async function(){
   // UI-4 success: proxy returns character rows
-  stub([[/deno\.dev/, ()=>json({ character: charOf("full_converges_to_0.json") })]]);
+  stub([[/deno\.net/, ()=>json({ character: charOf("full_converges_to_0.json") })]]);
   get("status").textContent=""; await fetchWishes(LINK);
   check("UI-4 link fetch renders", String(get("counter").textContent)==="0" && !/Couldn't/.test(get("status").textContent),
         "status="+JSON.stringify(get("status").textContent)+" c="+get("counter").textContent);
 
   // UI-5 bad link -> proxy 400 with error message, surfaced verbatim
-  stub([[/deno\.dev/, errResp(400,{error:"invalid/expired wish link"})]]);
+  stub([[/deno\.net/, errResp(400,{error:"invalid/expired wish link"})]]);
   await fetchWishes(LINK);
   check("UI-5 bad link -> invalid/expired", /invalid\/expired/i.test(get("status").textContent), "status="+JSON.stringify(get("status").textContent));
 
   // UI-6 link with no character-banner pulls -> radiance-only guidance
-  stub([[/deno\.dev/, json({character:[]})]]);
+  stub([[/deno\.net/, json({character:[]})]]);
   await fetchWishes(LINK);
   check("UI-6 no char pulls -> radiance-only message", /character-banner/i.test(get("status").textContent), "status="+JSON.stringify(get("status").textContent));
 
