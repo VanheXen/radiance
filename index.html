@@ -634,16 +634,16 @@ document.getElementById("seed").addEventListener("change", ()=>{ if(LAST) render
 document.getElementById("crpick").addEventListener("change", ()=>{ if(LAST) render(LAST.wishes, LAST.fname); });
 
 // ---- fetch via our own proxy: link -> getGachaLog -> character rows ----
-// Deploy worker.js (Deno Deploy) and put its URL here. The proxy paginates HoYo's
+// Deploy proxy.js (Deno Deploy) and put its URL here. The proxy paginates HoYo's
 // gacha API server-side (no browser CORS) and stores nothing.
-const WORKER_URL = "https://radiance.vanhexen.deno.net";   // worker.js on Deno Deploy
+const PROXY_URL = "https://radiance.vanhexen.deno.net";   // proxy.js on Deno Deploy
 async function fetchWishes(input){
   const v = input.trim();
   if(!v) return;
   const btn = document.getElementById("fetch"), status = document.getElementById("status");
   btn.disabled = true; status.textContent = t("fetching");
   try {
-    const res = await fetch(WORKER_URL, {
+    const res = await fetch(PROXY_URL, {
       method:"POST", headers:{"content-type":"application/json"},
       body: JSON.stringify({ url: v }) });
     const w = await res.json().catch(()=>({}));
