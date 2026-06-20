@@ -59,6 +59,13 @@ function check(name,cond,extra=""){ (cond?pass++:fail++); console.log((cond?"PAS
   check("UI-1 seed 2 -> counter 2", c2==="2", "got "+c2);
 })();
 
+// ===== UI-1b: a convergent partial history is already certain -> hide the seedbox =====
+(function(){
+  const ch=charOf("partial_converges.json");
+  seed.value="1"; crpick.value="-1"; render(ch,"partial_converges");
+  check("UI-1b convergent partial hides seedbox", get("seedbox").hidden===true, "hidden="+get("seedbox").hidden);
+})();
+
 // find WIN event indices in three_loss for CR-pick tests
 const ev3=f5(charOf("three_loss_then_CR.json"));
 const winIdx=ev3.map((e,i)=>e[2]==="WIN"?i:-1).filter(i=>i>=0);
