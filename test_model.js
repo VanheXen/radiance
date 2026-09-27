@@ -9,8 +9,8 @@ el.classList={toggle:noop,remove:noop}; el.querySelectorAll=()=>[]; el.options=[
 global.document={getElementById:()=>el,querySelector:()=>el,querySelectorAll:()=>[],body:{dataset:{}},createElement:()=>el};
 global.localStorage={getItem:()=>null,setItem:noop}; global.fetch=()=>Promise.reject(new Error("x"));
 global.location={origin:"https://vanhexen.github.io"};
-const mod={}; src+="\n;mod.f5=fivestar5050;mod.rad=radiance;mod.feas=feasibleStarts;"; new Function("mod",src)(mod);
-const {f5,rad,feas}=mod; const V50="2024-08-28";
+const mod={}; src+="\n;mod.parse=parseExport;mod.cm=CHARMAP;mod.f5=fivestar5050;mod.rad=radiance;mod.feas=feasibleStarts;"; new Function("mod",src)(mod);
+const {f5,rad,feas,parse,cm}=mod; const V50="2024-08-28";
 
 const EXP={full_converges_to_0:"0",three_loss_then_CR:"1",partial_ambiguous:"AMBIG",partial_converges:"1",
  boundary_guarantee:"0",two_CR_cycles:"1",alternating_low:"0",loss_pending:"1",no_fives:"NONE",
@@ -48,6 +48,16 @@ const need=["win_normal","win_c2_eligible","win_c3_CRproc","loss","guarantee","l
 console.log("\nbranch coverage:");
 let missing=0;
 for(const b of need){ const has=branches.has(b); if(!has) missing++; console.log("  "+(has?"ok ":"-- ")+b); }
+// UIGF v4 / paimon.moe round-trip: same pulls re-shaped must yield the same 5★ events
+{ const ch=charOf("three_loss_then_CR.json").map(p=>({...p, ...(cm[p.item_id]||{})}));
+  const slug=n=>n.toLowerCase().replace(/[^a-z0-9]+/g,"_"), t=p=>p.timestamp.replace("T"," ").slice(0,19);
+  const uigf={hk4e:[{uid:1,timezone:0,list:ch.map(p=>({uigf_gacha_type:"301",item_id:String(p.item_id),name:p.name,
+    rank_type:String(p.rarity),item_type:p.type==="character"?"Character":"Weapon",time:t(p)}))}]};
+  const paimon={"wish-uid":"1","wish-counter-character-event":{pulls:ch.map(p=>({type:p.type,id:slug(p.name),time:t(p)}))}};
+  const want=JSON.stringify(f5(ch));
+  for(const [k,d] of [["uigf",uigf],["paimon",paimon]]){
+    const ok=JSON.stringify(f5(parse(d)[0].wishes.character))===want; ok?pass++:fail++;
+    console.log((ok?"PASS ":"FAIL ")+("format_"+k).padEnd(22)); } }
 const good = fail===0 && missing===0;
 console.log(`\nmodel: ${pass} passed, ${fail} failed, ${missing} branches missing`);
 process.exit(good?0:1);
