@@ -58,6 +58,14 @@ for(const b of need){ const has=branches.has(b); if(!has) missing++; console.log
   for(const [k,d] of [["uigf",uigf],["paimon",paimon]]){
     const ok=JSON.stringify(f5(parse(d)[0].wishes.character))===want; ok?pass++:fail++;
     console.log((ok?"PASS ":"FAIL ")+("format_"+k).padEnd(22)); } }
+// BUG-MODEL-01 regression: Tighnari is date-gated standard (own limited
+// banner through patch 3.0, joins the Wanderlust Invocation standard pool
+// with patch 3.1 on 2022-09-28), mirroring the UI-9 Mizuki check above.
+{ const tig=d=>[{type:"character",name:"Tighnari",rarity:5,item_id:10000079,timestamp:d+"T12:00:00Z"}];
+  const before=f5(tig("2022-09-01"))[0][2];   // still his own limited banner -> WIN
+  const after =f5(tig("2022-09-28"))[0][2];   // joined standard pool (patch 3.1) -> LOSS
+  const ok=before==="WIN"&&after==="LOSS"; ok?pass++:fail++;
+  console.log((ok?"PASS ":"FAIL ")+"model_tighnari_std_date".padEnd(22)+" before="+before+" after="+after); }
 const good = fail===0 && missing===0;
 console.log(`\nmodel: ${pass} passed, ${fail} failed, ${missing} branches missing`);
 process.exit(good?0:1);
