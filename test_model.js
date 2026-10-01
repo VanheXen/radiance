@@ -51,9 +51,13 @@ for(const b of need){ const has=branches.has(b); if(!has) missing++; console.log
 // UIGF v4 / paimon.moe round-trip: same pulls re-shaped must yield the same 5★ events
 { const ch=charOf("three_loss_then_CR.json").map(p=>({...p, ...(cm[p.item_id]||{})}));
   const slug=n=>n.toLowerCase().replace(/[^a-z0-9]+/g,"_"), t=p=>p.timestamp.replace("T"," ").slice(0,19);
+  // paimon.moe stores times as UTC+8 wall clock (see index.html's parseExport
+  // comment); simulate that by shifting the real UTC pull time forward 8h
+  // before formatting, so parseExport's -8h un-shift is actually exercised.
+  const tPaimon=p=>new Date(Date.parse(p.timestamp)+8*3600e3).toISOString().replace("T"," ").slice(0,19);
   const uigf={hk4e:[{uid:1,timezone:0,list:ch.map(p=>({uigf_gacha_type:"301",item_id:String(p.item_id),name:p.name,
     rank_type:String(p.rarity),item_type:p.type==="character"?"Character":"Weapon",time:t(p)}))}]};
-  const paimon={"wish-uid":"1","wish-counter-character-event":{pulls:ch.map(p=>({type:p.type,id:slug(p.name),time:t(p)}))}};
+  const paimon={"wish-uid":"1","wish-counter-character-event":{pulls:ch.map(p=>({type:p.type,id:slug(p.name),time:tPaimon(p)}))}};
   const want=JSON.stringify(f5(ch));
   for(const [k,d] of [["uigf",uigf],["paimon",paimon]]){
     const ok=JSON.stringify(f5(parse(d)[0].wishes.character))===want; ok?pass++:fail++;
