@@ -38,7 +38,8 @@ global.fetch=()=>Promise.reject(new Error("no default net"));
 global.location={origin:"https://vanhexen.github.io"};
 
 // ---- load real script, export the functions we need ----
-let src=fs.readFileSync("index.html","utf8").match(/<script>([\s\S]*)<\/script>/)[1];
+const rawHtml=fs.readFileSync("index.html","utf8");
+let src=rawHtml.match(/<script>([\s\S]*)<\/script>/)[1];
 src+="\n;mod.render=render;mod.fetchWishes=fetchWishes;mod.f5=fivestar5050;"
    +"mod.showUid=showUid;mod._setLoaded=(u,f)=>{LOADED={uids:u,fname:f};};";
 const mod={}; new Function("mod",src)(mod);
@@ -113,6 +114,14 @@ const firstWin=winIdx[0], lastWin=winIdx[winIdx.length-1];
   mod.showUid(0); const a=String(get("counter").textContent);
   mod.showUid(1); const b=String(get("counter").textContent);
   check("UI-7 multi-UID switch (uid0=0, uid1=1)", a==="0"&&b==="1", "uid0="+a+" uid1="+b);
+})();
+
+// ===== UI-10: ledger "pity" header is localized like its sibling headers (BUG-UI-01) =====
+(function(){
+  const thead = rawHtml.match(/<thead>[\s\S]*?<\/thead>/)[0];
+  const hasBarePity = /<th>pity<\/th>/.test(thead);
+  const hasWrappedPity = /<th><span class="l-en">pity<\/span><span class="l-it">pity<\/span><\/th>/.test(thead);
+  check("UI-10 pity header localized like siblings (BUG-UI-01)", !hasBarePity && hasWrappedPity, "thead="+thead);
 })();
 
 // ===== UI-4/5/6: fetch paths (stub global.fetch -> the proxy at PROXY_URL) =====
