@@ -41,7 +41,7 @@ global.location={origin:"https://vanhexen.github.io"};
 const rawHtml=fs.readFileSync("index.html","utf8");
 let src=rawHtml.match(/<script>([\s\S]*)<\/script>/)[1];
 src+="\n;mod.render=render;mod.fetchWishes=fetchWishes;mod.f5=fivestar5050;"
-   +"mod.showUid=showUid;mod._setLoaded=(u,f)=>{LOADED={uids:u,fname:f};};";
+   +"mod.showUid=showUid;mod._setLoaded=(u,f)=>{LOADED={uids:u,fname:f};};mod.T=T;";
 const mod={}; new Function("mod",src)(mod);
 const {render,fetchWishes,f5}=mod;
 
@@ -131,6 +131,18 @@ const firstWin=winIdx[0], lastWin=winIdx[winIdx.length-1];
   const itHasCopyButton = /class="copy"/.test(itPanel);
   check("UI-11 Italian help panel has a Copy button (BUG-UI-02)", copyButtonCount===2 && itHasCopyButton,
         "count="+copyButtonCount+" itHas="+itHasCopyButton);
+})();
+
+// ===== UI-12: demo button source label goes through t(), not a hardcoded English string (BUG-UI-03) =====
+(function(){
+  const demoHandler = rawHtml.match(/getElementById\("demo"\)\.addEventListener\([\s\S]*?\}\);/)[0];
+  const usesHardcoded = /render\(demoData\(\),\s*"sample data"\)/.test(demoHandler);
+  const usesT = /render\(demoData\(\),\s*t\("sampleData"\)\)/.test(demoHandler);
+  check("UI-12 demo button uses t('sampleData') not a hardcoded string (BUG-UI-03)", !usesHardcoded && usesT,
+        "handler="+demoHandler);
+  const en = mod.T.en.sampleData, it = mod.T.it.sampleData;
+  check("UI-12b sampleData i18n key exists for en and it", typeof en==="string" && typeof it==="string" && en.length>0 && it.length>0,
+        "en="+en+" it="+it);
 })();
 
 // ===== UI-4/5/6: fetch paths (stub global.fetch -> the proxy at PROXY_URL) =====

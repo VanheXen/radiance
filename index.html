@@ -460,7 +460,7 @@ const T = {
     updUpdating:"updating {0} new char(s)…", updAdded:"+{0} new char(s) added",
     updUpToDate:"char data up to date", updOffline:"offline, using built-in char data",
     copy:"Copy", copied:"Copied", copyManual:"copy it manually", dontRemember:"(don't remember)",
-    nRad:"✦ radiance", nRadQ:"✦ radiance?"
+    nRad:"✦ radiance", nRadQ:"✦ radiance?", sampleData:"sample data"
   },
   it:{
     status:["Testa o croce. Nessun boost CR.","Testa o croce. Nessun boost CR.",
@@ -484,7 +484,7 @@ const T = {
     updUpdating:"aggiorno {0} nuovo/i pg…", updAdded:"+{0} nuovo/i pg",
     updUpToDate:"dati personaggi aggiornati", updOffline:"offline, dati personaggi integrati",
     copy:"Copia", copied:"Copiato", copyManual:"copia a mano", dontRemember:"(non ricordo)",
-    nRad:"✦ splendore", nRadQ:"✦ splendore?"
+    nRad:"✦ splendore", nRadQ:"✦ splendore?", sampleData:"dati di esempio"
   }
 };
 const t = (k,...a)=>{ let s=(T[LANG]&&T[LANG][k]!=null)?T[LANG][k]:T.en[k]; a.forEach((v,i)=>s=s.replace("{"+i+"}",v)); return s; };
@@ -804,7 +804,7 @@ function demoData(){
 }
 document.getElementById("demo").addEventListener("click", ()=>{
   document.getElementById("uidpick").hidden = true;
-  render(demoData(), "sample data");
+  render(demoData(), t("sampleData"));
 });
 
 // ---- copy the PowerShell command ----
