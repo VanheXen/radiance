@@ -50,6 +50,7 @@ const json = (body, status = 200) =>
   new Response(JSON.stringify(body), { status, headers: { ...CORS, "content-type": "application/json" } });
 
 Deno.serve(async (req) => {
+  try {
     if (req.method === "OPTIONS") return new Response(null, { headers: CORS });
     if (req.method !== "POST") return json({ error: "POST a wish url" }, 405);
 
@@ -125,6 +126,12 @@ Deno.serve(async (req) => {
     } catch (e) {
       return json({ error: "fetch failed: " + e.message }, 502);
     }
+  } catch (e) {
+    // Safety net for anything thrown outside the fetch-loop's own try (e.g. a
+    // transient Deno KV error inside rateLimited()), so every response still
+    // carries CORS headers via json() instead of an uncaught-exception fallback.
+    return json({ error: "internal error: " + e.message }, 500);
+  }
 });
 
 function hoyoErr(code) {
