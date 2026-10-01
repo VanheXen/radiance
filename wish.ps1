@@ -4,7 +4,6 @@
 # Run:  irm https://vanhexen.github.io/radiance/wish.ps1 | iex
 # (CN client: grab this file and run it with the argument "china".)
 
-Add-Type -AssemblyName System.Web
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor 3072  # TLS 1.2 on old Win10
 
 $reg     = $args[0]
@@ -43,14 +42,29 @@ Copy-Item $cacheFile $tmp -Force
 $content = Get-Content -Raw -Encoding UTF8 $tmp
 Remove-Item $tmp -Force
 
+# Hand-rolled query-string parse/build: System.Web.HttpUtility is not available
+# on PowerShell 7's cross-platform .NET runtime, only on Windows PowerShell 5.1
+# (BUG-PS1-01). System.Net.WebUtility works identically on both.
+function ConvertTo-QueryTable([string]$query) {
+  $table = [ordered]@{}
+  foreach ($pair in ($query.TrimStart("?") -split "&")) {
+    if (-not $pair) { continue }
+    $parts = $pair -split "=", 2
+    $key = [System.Net.WebUtility]::UrlDecode($parts[0])
+    $value = if ($parts.Length -gt 1) { [System.Net.WebUtility]::UrlDecode($parts[1]) } else { "" }
+    $table[$key] = $value
+  }
+  return $table
+}
+
 # Validate a candidate by hitting getGachaLog; retcode 0 means the authkey is live.
 function Test-WishUrl($url) {
   try {
     $u = [System.UriBuilder]::new($url)
     $u.Host = $apiHost; $u.Path = "gacha_info/api/getGachaLog"; $u.Fragment = ""
-    $q = [System.Web.HttpUtility]::ParseQueryString($u.Query)
-    $q.Set("lang", "en"); $q.Set("gacha_type", "301"); $q.Set("size", "5")
-    $u.Query = $q.ToString()
+    $q = ConvertTo-QueryTable $u.Query
+    $q["lang"] = "en"; $q["gacha_type"] = "301"; $q["size"] = "5"
+    $u.Query = (($q.GetEnumerator() | ForEach-Object { "$([System.Net.WebUtility]::UrlEncode($_.Key))=$([System.Net.WebUtility]::UrlEncode($_.Value))" }) -join "&")
     $r = Invoke-WebRequest -Uri $u.Uri.AbsoluteUri -UseBasicParsing -TimeoutSec 10 | ConvertFrom-Json
     return $r.retcode -eq 0
   } catch { return $false }
