@@ -87,7 +87,7 @@ The tests extract the **real** functions from `index.html`, so keep the JS logic
 
 **Deploy the proxy:** push `proxy.js` to [Deno Deploy](https://deno.com/deploy) (free; no per-request
 subrequest cap), then set `PROXY_URL` near the bottom of `index.html` to the `*.deno.dev` URL it gives you.
-The proxy paginates HoYo's `getGachaLog` server-side (browsers can't, since there's no CORS) and stores nothing.
+The proxy paginates HoYo's `getGachaLog` server-side (browsers can't, since there's no CORS) and keeps no wish data (only a brief per-IP request count for rate limiting).
 
 ---
 
@@ -169,4 +169,4 @@ I test estraggono le funzioni **reali** da `index.html`: mantieni intatti la log
 
 **Deploy del proxy:** carica `proxy.js` su [Deno Deploy](https://deno.com/deploy) (gratis; nessun limite di
 subrequest per richiesta), poi imposta `PROXY_URL` in fondo a `index.html` con l'URL `*.deno.dev` ottenuto.
-Il proxy pagina `getGachaLog` di HoYo lato server (i browser non possono, manca il CORS) e non salva nulla.
+Il proxy pagina `getGachaLog` di HoYo lato server (i browser non possono, manca il CORS) e non conserva dati dei desideri (solo un breve conteggio delle richieste per IP, per il rate limit).
