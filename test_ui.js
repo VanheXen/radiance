@@ -124,6 +124,15 @@ const firstWin=winIdx[0], lastWin=winIdx[winIdx.length-1];
   check("UI-10 pity header localized like siblings (BUG-UI-01)", !hasBarePity && hasWrappedPity, "thead="+thead);
 })();
 
+// ===== UI-11: Italian help panel has the same Copy button the English panel has (BUG-UI-02) =====
+(function(){
+  const copyButtonCount = (rawHtml.match(/class="copy"/g)||[]).length;
+  const itPanel = rawHtml.match(/<div class="help-body l-it">[\s\S]*?<\/div>/)[0];
+  const itHasCopyButton = /class="copy"/.test(itPanel);
+  check("UI-11 Italian help panel has a Copy button (BUG-UI-02)", copyButtonCount===2 && itHasCopyButton,
+        "count="+copyButtonCount+" itHas="+itHasCopyButton);
+})();
+
 // ===== UI-4/5/6: fetch paths (stub global.fetch -> the proxy at PROXY_URL) =====
 function stub(routes){ global.fetch=(url,opts)=>{ for(const [re,resp] of routes){ if(re.test(url)) return Promise.resolve(typeof resp==="function"?resp():resp); } return Promise.reject(new Error("unrouted "+url)); }; }
 const json=o=>({ok:true,status:200,json:()=>Promise.resolve(o)});

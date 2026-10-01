@@ -294,7 +294,7 @@
             <li>Avvia Genshin sul PC e apri <em>Desideri → Cronologia</em>.</li>
             <li>Apri <em>PowerShell</em> (cerca "PowerShell" nel menu Start).</li>
             <li>Esegui questo, poi copia l'output (il tuo link dei desideri):
-              <span class="cmd-row"><code class="cmd">irm https://vanhexen.github.io/radiance/wish.ps1 | iex</code></span></li>
+              <span class="cmd-row"><code class="cmd">irm https://vanhexen.github.io/radiance/wish.ps1 | iex</code><button type="button" class="copy" id="copycmdIt" aria-label="Copy command">Copia</button></span></li>
             <li>Incolla quel link sopra e premi <em>Fetch</em>.</li>
           </ol>
           <p class="tiny">Lo script legge la cache locale del gioco e stampa il link, e non carica nulla. <strong>Su mobile o console?</strong> Lo step del link richiede un PC; in alternativa esporta un JSON con un tool locale e usa <em>Load JSON</em>.</p>
@@ -763,6 +763,7 @@ function applyLang(lang){
   document.querySelectorAll(".langtoggle button").forEach(b=> b.classList.toggle("active", b.dataset.setlang===LANG));
   document.getElementById("link").placeholder = HOSTED ? t("placeholder") : t("localFetch");
   const cc = document.getElementById("copycmd"); if(cc) cc.textContent = t("copy");
+  const ccIt = document.getElementById("copycmdIt"); if(ccIt) ccIt.textContent = t("copy");
   const cp = document.getElementById("crpick"); if(cp && cp.options[0]) cp.options[0].textContent = t("dontRemember");
   if(LAST) render(LAST.wishes, LAST.fname);
   else document.getElementById("status").textContent = t("statusInit");
@@ -808,6 +809,13 @@ document.getElementById("demo").addEventListener("click", ()=>{
 
 // ---- copy the PowerShell command ----
 document.getElementById("copycmd").addEventListener("click", e=>{
+  const cmd="irm https://vanhexen.github.io/radiance/wish.ps1 | iex";
+  (navigator.clipboard ? navigator.clipboard.writeText(cmd) : Promise.reject())
+    .then(()=>{ e.target.textContent=t("copied"); setTimeout(()=>e.target.textContent=t("copy"),1500); })
+    .catch(()=>{ e.target.textContent=t("copyManual"); setTimeout(()=>e.target.textContent=t("copy"),1800); });
+});
+
+document.getElementById("copycmdIt").addEventListener("click", e=>{
   const cmd="irm https://vanhexen.github.io/radiance/wish.ps1 | iex";
   (navigator.clipboard ? navigator.clipboard.writeText(cmd) : Promise.reject())
     .then(()=>{ e.target.textContent=t("copied"); setTimeout(()=>e.target.textContent=t("copy"),1500); })
