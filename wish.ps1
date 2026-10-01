@@ -28,8 +28,12 @@ if (-not $gameDir) {
 }
 
 # The newest webCaches\<ver>\Cache\Cache_Data\data_2 holds the wish URLs.
-$verDir = Get-ChildItem -Path (Join-Path $gameDir "webCaches") -Directory |
+$verDir = Get-ChildItem -Path (Join-Path $gameDir "webCaches") -Directory -ErrorAction SilentlyContinue |
           Sort-Object LastWriteTime -Descending | Select-Object -First 1
+if (-not $verDir) {
+  Write-Host "Can't find the wish cache. Open Wishes > History in-game first." -ForegroundColor Red
+  return
+}
 $cacheFile = Join-Path $verDir.FullName "Cache\Cache_Data\data_2"
 if (-not (Test-Path $cacheFile)) {
   Write-Host "Can't find the wish cache. Open Wishes > History in-game first." -ForegroundColor Red
