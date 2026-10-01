@@ -9,6 +9,7 @@
 const CHAR_BANNERS = ["301", "400"]; // both character event banners
 const PAGE_DELAY_MS = 300;           // dodge HoYo retcode -110 "visit too frequently"
 const MAX_PAGES = 200;               // hard stop (~4000 pulls/banner) so a bad authkey can't loop forever
+const MAX_RETRIES_110 = 10;          // cap consecutive retcode -110 (throttled) retries per page, so MAX_PAGES's hard stop actually holds
 
 const CORS = {
   "access-control-allow-origin": "*",
@@ -87,6 +88,7 @@ Deno.serve(async (req) => {
       const rows = [];
       for (const gachaType of CHAR_BANNERS) {
         let endId = "0";
+        let retries110 = 0; // consecutive-throttle retries on the current page
         for (let page = 1; page <= MAX_PAGES; page++) {
           base.searchParams.set("gacha_type", gachaType);
           base.searchParams.set("page", String(page));
@@ -95,7 +97,11 @@ Deno.serve(async (req) => {
           const r = await fetch(base.toString(), { headers: { "user-agent": "radiance" } });
           const data = await r.json();
 
-          if (data.retcode === -110) { await sleep(1000); page--; continue; } // throttled, retry same page
+          if (data.retcode === -110) {
+            if (++retries110 > MAX_RETRIES_110) return json({ error: "HoYo is throttling this request, try again shortly", retcode: data.retcode }, 429);
+            await sleep(1000); page--; continue; // throttled, retry same page (bounded by MAX_RETRIES_110)
+          }
+          retries110 = 0;
           if (data.retcode !== 0) return json({ error: hoyoErr(data.retcode), retcode: data.retcode }, 400);
 
           const list = data.data?.list || [];
