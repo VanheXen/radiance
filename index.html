@@ -735,6 +735,7 @@ async function fetchWishes(input){
   const v = input.trim();
   if(!v) return;
   const btn = document.getElementById("fetch"), status = document.getElementById("status");
+  if(btn.disabled) return;   /* already fetching: Enter in the link field must not bypass the disabled button */
   btn.disabled = true; status.textContent = t("fetching");
   try {
     const res = await fetch(PROXY_URL, {

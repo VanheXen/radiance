@@ -163,6 +163,15 @@ const LINK="https://hk4e-api-os.hoyoverse.com/event/gacha_info/api/getGachaLog?a
   await fetchWishes(LINK);
   check("UI-5 bad link -> invalid/expired", /invalid\/expired/i.test(get("status").textContent), "status="+JSON.stringify(get("status").textContent));
 
+  // UI-13 a second fetch while one is in flight is ignored (BUG-UI-04: Enter bypasses the disabled button)
+  {
+    let calls=0; const releases=[];
+    global.fetch=()=>{ calls++; return new Promise(r=>releases.push(()=>r(json({character:[]})))); };
+    const p1=fetchWishes(LINK), p2=fetchWishes(LINK);
+    releases.forEach(f=>f()); await Promise.all([p1,p2]);
+    check("UI-13 second fetch while one is running is ignored (BUG-UI-04)", calls===1, "fetch calls="+calls);
+  }
+
   // UI-6 link with no character-banner pulls -> radiance-only guidance
   stub([[/deno\.net/, json({character:[]})]]);
   await fetchWishes(LINK);
