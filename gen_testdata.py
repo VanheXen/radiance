@@ -121,7 +121,8 @@ STRIP = {"export_charmap_path"}   # serialize these without name/rarity (item_id
 
 os.makedirs(OUT, exist_ok=True)
 lines=["# Test fixtures: expected radiance results\n",
-       "Load each via the app's **Load JSON** button.\n"]
+       "Load each via the app's **Load JSON** button.\n",
+       f"This directory holds **{len(SCENARIOS) + 1} fixtures** (`.json`) plus this file.\n"]
 uid=810000001
 for name, toks in SCENARIOS.items():
     b=Builder(datetime.datetime(2024,1,1))

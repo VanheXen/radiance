@@ -2,6 +2,8 @@
 
 Load each via the app's **Load JSON** button.
 
+This directory holds **12 fixtures** (`.json`) plus this file.
+
 
 ## full_converges_to_0.json  (uid 810000001)
 - coverage: full (reaches pre-v5.0)
