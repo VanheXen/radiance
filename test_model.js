@@ -6,7 +6,7 @@ const h=fs.readFileSync("index.html","utf8");
 let src=h.match(/<script>([\s\S]*)<\/script>/)[1];
 const noop=()=>{}; const el=new Proxy({},{get:()=>(()=>el),set:()=>true});
 el.classList={toggle:noop,remove:noop}; el.querySelectorAll=()=>[]; el.options=[]; el.dataset={};
-global.document={getElementById:()=>el,querySelector:()=>el,querySelectorAll:()=>[],body:{dataset:{}},createElement:()=>el};
+global.document={getElementById:()=>el,querySelector:()=>el,querySelectorAll:()=>[],body:{dataset:{}},documentElement:{},createElement:()=>el};
 global.localStorage={getItem:()=>null,setItem:noop}; global.fetch=()=>Promise.reject(new Error("x"));
 global.location={origin:"https://vanhexen.github.io"};
 const mod={}; src+="\n;mod.parse=parseExport;mod.cm=CHARMAP;mod.f5=fivestar5050;mod.rad=radiance;mod.feas=feasibleStarts;"; new Function("mod",src)(mod);
