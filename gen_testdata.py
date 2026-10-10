@@ -133,7 +133,7 @@ for name, toks in SCENARIOS.items():
     earliest=min((e[0] for e in ev), default="-")
     partial = earliest>V50
     if not ev:                                        # no 5★ at all
-        verdict = "no character-banner 5★; app shows 'nothing to compute'"
+        verdict = "no character-banner 5★; app shows 'No character-banner 5★ found in this data.'"
         cov = "n/a"
     elif not partial:                                 # app uses the known start (1) for full history
         verdict = f"counter **{radiance(ev,1)}**, certain (full history)"

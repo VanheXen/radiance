@@ -37,7 +37,7 @@ Load each via the app's **Load JSON** button.
 
 ## no_fives.json  (uid 810000009)
 - coverage: n/a
-- **expected: no character-banner 5★; app shows 'nothing to compute'**
+- **expected: no character-banner 5★; app shows 'No character-banner 5★ found in this data.'**
 
 ## cr_eligible_c2.json  (uid 810000010)
 - coverage: full (reaches pre-v5.0)
