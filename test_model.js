@@ -1,5 +1,5 @@
 // Validates every testdata fixture against the REAL functions extracted from
-// radiance.html (browser globals stubbed), and asserts full branch coverage.
+// index.html (browser globals stubbed), and asserts full branch coverage.
 // Run: node test_model.js
 const fs=require("fs");
 const h=fs.readFileSync("index.html","utf8");

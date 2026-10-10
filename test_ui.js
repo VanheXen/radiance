@@ -1,4 +1,4 @@
-// DOM-stub harness: drives the REAL render() / fetchWishes() from radiance.html
+// DOM-stub harness: drives the REAL render() / fetchWishes() from index.html
 // through the interactive paths that static fixtures can't reach.
 // Run: node test_ui.js
 const fs = require("fs");
