@@ -95,6 +95,9 @@
     font:500 13px var(--sans); cursor:pointer; transition:background .15s,color .15s}
   label.file:hover,.ghost:hover{background:var(--ink); color:var(--bg)}
   label.file:focus-within{outline:2px solid var(--cobalt); outline-offset:2px}
+  label.file{position:relative}
+  .sr-only{position:absolute; width:1px; height:1px; margin:-1px; padding:0; border:0;
+    overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap}   /* hidden to the eye, still a Tab stop */
   .ghost{border-color:var(--rule)}
   .alt-note{flex-basis:100%; order:3; color:var(--ink-3); font-size:12px}
   #uidpick{height:36px; background:var(--field); color:var(--ink); border:1px solid var(--rule);
@@ -268,7 +271,7 @@
       <p class="field-warn"><span class="l-en">Fetch sends your link through a small proxy to read your wishes from HoYo. <strong>Nothing is stored or made public</strong>. For fully offline use, Load&nbsp;JSON. <a href="#privacy">Details</a></span><span class="l-it">Fetch invia il tuo link tramite un piccolo proxy per leggere i desideri da HoYo. <strong>Niente viene salvato o reso pubblico</strong>. Per uso totalmente offline, usa Load&nbsp;JSON. <a href="#privacy">Dettagli</a></span></p>
 
       <div class="alt">
-        <label class="file">Load JSON<input id="file" type="file" accept=".json" hidden></label>
+        <label class="file">Load JSON<input id="file" class="sr-only" type="file" accept=".json"></label>
         <button id="demo" class="ghost" type="button"><span class="l-en">Try sample data</span><span class="l-it">Prova dati esempio</span></button>
         <select id="uidpick" hidden aria-label="Account UID"></select>
         <span class="alt-note"><span class="l-en">JSON stays on your device</span><span class="l-it">il JSON resta sul tuo dispositivo</span></span>

@@ -153,6 +153,16 @@ const firstWin=winIdx[0], lastWin=winIdx[winIdx.length-1];
   check("UI-14 applyLang sets <html lang> (BUG-UX-01)", it==="it" && en==="en", "it="+it+" en="+en);
 })();
 
+// ===== UI-15: the Load JSON file input stays keyboard-focusable (BUG-UX-02) =====
+(function(){
+  const input = rawHtml.match(/<input[^>]*id="file"[^>]*>/)[0];
+  const display_none = /\shidden(\s|>|=)/.test(input);          // [hidden] => display:none => no Tab stop
+  const sr = rawHtml.match(/\.sr-only\s*\{[^}]*\}/);
+  const clipped = sr && /clip|1px/.test(sr[0]) && !/display\s*:\s*none/.test(sr[0]);
+  check("UI-15 #file is visually hidden, not display:none (BUG-UX-02)",
+        !display_none && /class="sr-only"/.test(input) && !!clipped, "input="+input);
+})();
+
 // ===== UI-4/5/6: fetch paths (stub global.fetch -> the proxy at PROXY_URL) =====
 function stub(routes){ global.fetch=(url,opts)=>{ for(const [re,resp] of routes){ if(re.test(url)) return Promise.resolve(typeof resp==="function"?resp():resp); } return Promise.reject(new Error("unrouted "+url)); }; }
 const json=o=>({ok:true,status:200,json:()=>Promise.resolve(o)});
