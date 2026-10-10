@@ -27,7 +27,7 @@ Open the app, then load your history one of two ways.
    ```powershell
    irm https://vanhexen.github.io/radiance/wish.ps1 | iex
    ```
-   This runs the project's own `wish.ps1` (served from the proxy). It reads your local game cache, prints the link, and uploads nothing.
+   This runs the project's own `wish.ps1` (served as a static file by GitHub Pages, not by the proxy). It reads your local game cache, prints the link, and uploads nothing.
 4. Paste the link into the app and press **Fetch**. A small proxy ([`proxy.js`](proxy.js)) reads your
    character-banner history from HoYo and returns it; nothing is stored or made public.
 
@@ -109,7 +109,7 @@ Apri l'app, poi carica la cronologia in uno dei due modi.
    ```powershell
    irm https://vanhexen.github.io/radiance/wish.ps1 | iex
    ```
-   Esegue il `wish.ps1` del progetto (servito dal proxy). Legge la cache locale del gioco, stampa il link e non carica nulla.
+   Esegue il `wish.ps1` del progetto (servito come file statico da GitHub Pages, non dal proxy). Legge la cache locale del gioco, stampa il link e non carica nulla.
 4. Incolla il link nell'app e premi **Fetch**. Un piccolo proxy ([`proxy.js`](proxy.js)) legge la cronologia
    del banner personaggio da HoYo e la restituisce; niente viene salvato o reso pubblico.
 
