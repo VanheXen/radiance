@@ -15,7 +15,7 @@ function mkEl(){
     get innerHTML(){ return this._html; }, set innerHTML(v){ this._html=v; },
     insertAdjacentHTML(_p,html){ this._html+=html; },
     appendChild(o){ this.options.push(o); },
-    addEventListener(){},
+    addEventListener(type,fn){ (this._ev||(this._ev={}))[type]=fn; },   // keep handlers so tests can drive them
   };
 }
 const reg={};
@@ -161,6 +161,33 @@ const firstWin=winIdx[0], lastWin=winIdx[winIdx.length-1];
   const clipped = sr && /clip|1px/.test(sr[0]) && !/display\s*:\s*none/.test(sr[0]);
   check("UI-15 #file is visually hidden, not display:none (BUG-UX-02)",
         !display_none && /class="sr-only"/.test(input) && !!clipped, "input="+input);
+})();
+
+// ===== UI-16: a failed load / inconsistent history clears the previous result (BUG-UX-03) =====
+(function(){
+  global.FileReader=class{ readAsText(f){ this.result=f.text; this.onload(); } };
+  const good=()=>{ seed.value="1"; crpick.value="-1"; render(charOf("full_converges_to_0.json"),"good"); };
+  const cleared=()=> String(get("counter").textContent)==="?" && tbody._html==="" && get("tbl").hidden===true
+                     && get("summary").innerHTML==="" && get("note").textContent==="" && get("seedbox").hidden===true;
+  const load=text=>get("file")._ev.change({target:{files:[{name:"x.json",text}]}});
+
+  good();
+  check("UI-16 setup: good render populated the result", String(get("counter").textContent)==="0" && tbody._html!=="", "c="+get("counter").textContent);
+
+  load("{");                                           // not JSON -> badFile
+  check("UI-16a bad file clears the old result", cleared() && /Bad file/.test(get("status").textContent),
+        "c="+get("counter").textContent+" status="+get("status").textContent);
+
+  good(); load(JSON.stringify({hk4e:[]}));             // recognised shape, no accounts -> noUid
+  check("UI-16b export with no UID clears the old result", cleared() && get("status").textContent===mod.T.en.noUid,
+        "c="+get("counter").textContent+" status="+get("status").textContent);
+
+  good();                                              // partial history where every start is impossible
+  const mk=(n,d)=>({type:"character",name:n,rarity:5,item_id:0,timestamp:d+"T12:00:00Z"});
+  render([mk("Mona","2024-09-01"),mk("Furina","2024-10-01"),mk("Mona","2024-11-01"),mk("Furina","2024-12-01"),
+          mk("Mona","2025-01-01"),mk("Furina","2025-02-01"),mk("Mona","2025-02-15")],"bad");
+  check("UI-16c inconsistent history clears the old result", cleared() && get("status").textContent===mod.T.en.inconsistent,
+        "c="+get("counter").textContent+" status="+get("status").textContent);
 })();
 
 // ===== UI-4/5/6: fetch paths (stub global.fetch -> the proxy at PROXY_URL) =====

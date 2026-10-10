@@ -600,6 +600,25 @@ function certainFrom(logs){
 // ---- UI ----
 let LAST = null;   // {wishes, fname} for re-render when the seed changes
 
+// Blank the result block, so an error message never sits next to a stale successful result.
+function clearResult(){
+  document.body.dataset.state = 1;
+  document.getElementById("counter").textContent = "?";
+  document.querySelectorAll(".pip").forEach(p=>p.classList.remove("on"));
+  document.getElementById("summary").innerHTML = "";
+  document.getElementById("note").textContent = "";
+  document.getElementById("seedbox").hidden = true;
+  document.getElementById("tbl").hidden = true;
+  const tb = document.querySelector("#tbl tbody"); if(tb) tb.innerHTML = "";
+  document.getElementById("src").textContent = "";
+}
+// A load/fetch failed: show the message on a clean slate (and forget the old result, so a
+// language toggle does not bring it back).
+function showError(msg){
+  clearResult(); LAST = null;
+  document.getElementById("status").textContent = msg;
+}
+
 function render(wishes, fname){
   LAST = {wishes, fname};
   const events = fivestar5050(wishes);
@@ -629,7 +648,12 @@ function render(wishes, fname){
     document.getElementById("seedbox").hidden = true;   // hide any seedbox left over from a prior partial load
   } else {
     let feas = feasibleStarts(events);
-    if(!feas.length){ document.getElementById("status").textContent = t("inconsistent"); return; }
+    if(!feas.length){
+      clearResult();
+      document.getElementById("status").textContent = t("inconsistent");
+      document.getElementById("src").textContent = fname ? t("loaded", fname) : "";
+      return;
+    }
 
     // populate the "which 5★ was your radiance" picker from WIN events (stable per file)
     const cp = document.getElementById("crpick"), prevPick = cp.value;
@@ -710,14 +734,14 @@ document.getElementById("file").addEventListener("change", e=>{
   r.onload=()=>{
     try{
       const uids=parseExport(JSON.parse(r.result));
-      if(!uids||!uids.length){ document.getElementById("status").textContent=t("noUid"); return; }
+      if(!uids||!uids.length){ showError(t("noUid")); return; }
       LOADED={uids, fname:f.name};
       const up=document.getElementById("uidpick");
       up.innerHTML="";
       uids.forEach((u,i)=>{ const o=document.createElement("option"); o.value=i; o.textContent="UID "+u.uid; up.appendChild(o); });
       up.value="0"; up.hidden = uids.length<2;     // only show the picker when there's a choice
       showUid(0);
-    }catch(err){ document.getElementById("status").textContent=t("badFile", err.message); }
+    }catch(err){ showError(t("badFile", err.message)); }
   };
   r.readAsText(f);
 });
@@ -750,7 +774,7 @@ async function fetchWishes(input){
     document.getElementById("uidpick").hidden = true;   // a link is always a single account
     render(w.character, t("fetched"));
   } catch(e){
-    status.textContent = t("couldnt", e.message);
+    showError(t("couldnt", e.message));
   } finally { btn.disabled = false; }
 }
 document.getElementById("fetch").addEventListener("click", ()=> fetchWishes(document.getElementById("link").value));
