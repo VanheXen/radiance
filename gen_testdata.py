@@ -167,5 +167,5 @@ lines.append("- two accounts in one export -> app shows a **UID picker**")
 lines.append("- **expected: 820000001 -> counter 0; 820000002 -> counter 1**")
 
 open(f"{OUT}/EXPECTED.md","w",encoding="utf-8").write("\n".join(lines))
-print("wrote", len(SCENARIOS), "fixtures + EXPECTED.md to", OUT+"/")
+print("wrote", len(SCENARIOS) + 1, "fixtures (incl. multi_uid) + EXPECTED.md to", OUT+"/")
 for f in sorted(os.listdir(OUT)): print("  ", f)
