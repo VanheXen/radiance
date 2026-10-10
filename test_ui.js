@@ -32,6 +32,7 @@ global.document={
   createElement:()=>({ _v:"", get value(){return this._v;}, set value(x){this._v=String(x);}, // browsers stringify option.value
                        textContent:"", hidden:false }),
   body:{dataset:{}},
+  documentElement:{lang:"en"},
 };
 global.localStorage={getItem:()=>null,setItem(){}};
 global.fetch=()=>Promise.reject(new Error("no default net"));
@@ -41,7 +42,7 @@ global.location={origin:"https://vanhexen.github.io"};
 const rawHtml=fs.readFileSync("index.html","utf8");
 let src=rawHtml.match(/<script>([\s\S]*)<\/script>/)[1];
 src+="\n;mod.render=render;mod.fetchWishes=fetchWishes;mod.f5=fivestar5050;"
-   +"mod.showUid=showUid;mod._setLoaded=(u,f)=>{LOADED={uids:u,fname:f};};mod.T=T;";
+   +"mod.showUid=showUid;mod._setLoaded=(u,f)=>{LOADED={uids:u,fname:f};};mod.T=T;mod.applyLang=applyLang;";
 const mod={}; new Function("mod",src)(mod);
 const {render,fetchWishes,f5}=mod;
 
@@ -143,6 +144,13 @@ const firstWin=winIdx[0], lastWin=winIdx[winIdx.length-1];
   const en = mod.T.en.sampleData, it = mod.T.it.sampleData;
   check("UI-12b sampleData i18n key exists for en and it", typeof en==="string" && typeof it==="string" && en.length>0 && it.length>0,
         "en="+en+" it="+it);
+})();
+
+// ===== UI-14: language toggle keeps <html lang> in step with the visible language (BUG-UX-01) =====
+(function(){
+  mod.applyLang("it"); const it=document.documentElement.lang;
+  mod.applyLang("en"); const en=document.documentElement.lang;
+  check("UI-14 applyLang sets <html lang> (BUG-UX-01)", it==="it" && en==="en", "it="+it+" en="+en);
 })();
 
 // ===== UI-4/5/6: fetch paths (stub global.fetch -> the proxy at PROXY_URL) =====

@@ -761,6 +761,7 @@ function applyLang(lang){
   LANG = lang==="it" ? "it" : "en";
   localStorage.setItem("lang", LANG);
   document.body.dataset.lang = LANG;
+  document.documentElement.lang = LANG;   // screen readers and translators pick pronunciation from <html lang>
   document.querySelectorAll(".langtoggle button").forEach(b=> b.classList.toggle("active", b.dataset.setlang===LANG));
   document.getElementById("link").placeholder = HOSTED ? t("placeholder") : t("localFetch");
   const cc = document.getElementById("copycmd"); if(cc) cc.textContent = t("copy");
