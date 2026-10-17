@@ -7,3 +7,8 @@ HANDOFF.md
 # python / test scratch
 __pycache__/
 *.pyc
+
+# local agent/run docs (kept out of history)
+CONTEXT.md
+DESIGN.md
+docs/
